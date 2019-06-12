@@ -1,4 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 project(engine)
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+find_package(SDL2 REQUIRED)
+include_directories(${SDL2_INCLUDE_DIR})
 add_executable(engine main.cpp)
-
+target_link_libraries(engine ${SDL2_LIBRARY}  -lmingw32 -lSDL2main -lSDL2  -lmingw32 -lSDL2main -lSDL2 -mwindows  )
