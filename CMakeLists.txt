@@ -1,7 +1,18 @@
 cmake_minimum_required(VERSION 3.13)
 project(engine)
+set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+
+set(ENGINE_SOURCES
+        src/core/Engine.cpp)
+set(ENGINE_HEADERS
+        src/core/Engine.hpp)
+
+add_library(my_engine_library STATIC ${ENGINE_SOURCES} ${ENGINE_HEADERS})
+target_include_directories(my_engine_library PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIR})
+
 add_executable(engine main.cpp)
-target_link_libraries(engine ${SDL2_LIBRARY}  -lmingw32 -lSDL2main -lSDL2  -lmingw32 -lSDL2main -lSDL2 -mwindows  )
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY}  mingw32 SDL2main SDL2 mingw32 SDL2main SDL2 -mwindows my_engine_library)
