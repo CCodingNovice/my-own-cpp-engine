@@ -4,15 +4,21 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 set(ENGINE_SOURCES
-        src/core/Engine.cpp)
+        src/core/Engine.cpp
+        src/input.cpp
+        src/core/Object_2d.cpp)
 set(ENGINE_HEADERS
-        src/core/Engine.hpp)
+        src/core/Engine.hpp
+        src/input.hpp
+        src/core/Object_2d.hpp)
 
 add_library(my_engine_library STATIC ${ENGINE_SOURCES} ${ENGINE_HEADERS})
 target_include_directories(my_engine_library PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
 
 find_package(SDL2 REQUIRED)
-include_directories(${SDL2_INCLUDE_DIR})
+find_package(SDL2_image REQUIRED)
+find_package(SDL2_mixer REQUIRED)
+include_directories(${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR} ${SDL2_MIXER_INCLUDE_DIR})
 
 add_executable(engine main.cpp)
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY}  mingw32 SDL2main SDL2 mingw32 SDL2main SDL2 -mwindows my_engine_library)
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY}  ${SDL2_IMAGE_LIBRARY} ${SDL2_MIXER_LIBRARY} mingw32 SDL2main SDL2 mingw32 SDL2main SDL2 -mwindows my_engine_library )

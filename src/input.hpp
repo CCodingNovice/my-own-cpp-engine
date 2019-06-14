@@ -1,0 +1,5 @@
+#ifndef ENGINE_INPUT_HPP
+#define ENGINE_INPUT_HPP
+
+
+#endif //ENGINE_INPUT_HPP
