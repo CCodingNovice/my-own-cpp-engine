@@ -3,9 +3,10 @@
 
 #include <SDL.h>
 #include "Object_2d.hpp"
-
+#include "RigidBody.hpp"
 namespace my_engine{
     class Engine{
+        friend class RigidBody;
     public:
         Engine();
         void init();
@@ -13,6 +14,7 @@ namespace my_engine{
         void set_renderer_options(Uint32 flags);
         void clear_renderer();
         void draw_2d_object(Object_2d object2d, int width, int height, float scale);
+        void draw_2d_object(RigidBody rb, int width, int height, float scale);
         void render_frame();
 
     private:

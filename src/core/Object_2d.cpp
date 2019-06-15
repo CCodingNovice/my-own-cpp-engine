@@ -17,10 +17,6 @@ Object_2d::Object_2d(int x, int y, const char texturePath[100]) {
     strcpy(tex_path, texturePath);
 }
 
-Object_2d::~Object_2d() {
-
-}
-
 int Object_2d::Get_x() {
     return x_pos;
 }
