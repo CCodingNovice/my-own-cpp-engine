@@ -50,6 +50,7 @@ void Engine::draw_2d_object(RigidBody rb, int width, int height, float scale) {
     object_rect.h = height;
     SDL_Texture *tex = IMG_LoadTexture(renderer, rb.GetPath());
     SDL_RenderCopy(renderer, tex, nullptr, &object_rect);
+    SDL_DestroyTexture(tex);
 }
 
 
