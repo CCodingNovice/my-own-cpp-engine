@@ -7,41 +7,39 @@
 
 using namespace my_engine;
 
-Engine::Engine(const char *title, int weight, int height) {
-    SDL_Init(SDL_INIT_EVERYTHING);
-    window = SDL_CreateWindow(title, 20, 20, weight, height, SDL_WINDOW_SHOWN);
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-
-}
 Engine::Engine() {
-    SDL_Init(SDL_INIT_EVERYTHING);
     window = nullptr;
     renderer = nullptr;
 }
 
-void my_engine::Engine::RenderFrame() {
-
+void Engine::init() {
+    SDL_Init(SDL_INIT_EVERYTHING);
 }
 
-SDL_Renderer *Engine::GetRenderer() {
-    return renderer;
+void Engine::set_window_options(int x_pos, int y_pos, int width, int height, const char *title, Uint32 flags) {
+    window = SDL_CreateWindow(title, x_pos, y_pos, width, height, flags);
 }
 
-SDL_Window *Engine::GetWindow() {
-    return window;
+void Engine::set_renderer_options(Uint32 flags) {
+    renderer = SDL_CreateRenderer(window, -1, flags);
 }
 
-void Engine::RenderTexture(Object_2d object2d, int width, int height) {
-    SDL_Rect ObjectRect;
-    ObjectRect.x = object2d.Get_x();
-    ObjectRect.y = object2d.Get_y();
-    ObjectRect.w = width;
-    ObjectRect.h = height;
-    SDL_Texture *player =  IMG_LoadTexture(renderer, object2d.GetPath());
-    SDL_RenderClear(renderer); //Очистка рендера
-    SDL_RenderCopy(renderer, player, NULL, &ObjectRect); //Копируем в рендер персонажа
-    SDL_RenderPresent(renderer); //Погнали!!
+void Engine::clear_renderer() {
+    SDL_RenderClear(renderer);
 }
 
+void Engine::draw_2d_object(Object_2d object2d, int width, int height, float scale) {
+    SDL_Rect object_rect;
+    object_rect.x = object2d.Get_x();
+    object_rect.y = object2d.Get_y();
+    object_rect.w = width;
+    object_rect.h = height;
+    SDL_Texture *tex = IMG_LoadTexture(renderer, object2d.GetPath());
+    SDL_RenderCopy(renderer, tex, nullptr, &object_rect);
+}
+
+void Engine::render_frame() {
+    SDL_RenderPresent(renderer);
+}
 
 
