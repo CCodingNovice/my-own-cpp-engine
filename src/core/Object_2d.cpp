@@ -11,9 +11,11 @@ Object_2d::Object_2d() {
     strcpy(tex_path,"");
 }
 
-Object_2d::Object_2d(int x, int y, const char texturePath[100]) {
+Object_2d::Object_2d(int x, int y, int w, int h, const char texturePath[100]) {
     x_pos = x;
     y_pos = y;
+    width = w;
+    height = h;
     strcpy(tex_path, texturePath);
 }
 
@@ -27,6 +29,14 @@ int Object_2d::Get_y() {
 
 char *Object_2d::GetPath() {
     return tex_path;
+}
+
+int Object_2d::Get_width() {
+    return width;
+}
+
+int Object_2d::Get_height() {
+    return height;
 }
 
 

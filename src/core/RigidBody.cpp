@@ -1,63 +1,56 @@
-//
-// Created by nikit on 15.06.2019.
-//
-
 #include <cstring>
 #include "RigidBody.hpp"
+#include "AABB.hpp"
 
 RigidBody::RigidBody() {
-    weight = 0;
-    is_movable = false;
-    friction = 1;
-    is_rotate = false;
-    angle = 0;
-    reaction = 1;
+    mass = 1;
+    use_gravity = true;
+    is_movable = true;
 }
 
-RigidBody::RigidBody(Object_2d object2d, float mass, bool move, float friction_force, bool rotation, float a, double react) {
+RigidBody::RigidBody(float m, bool gravity, bool movable) {
+    mass = m;
+    use_gravity = gravity;
+    is_movable = movable;
+}
+
+RigidBody &RigidBody::operator=(Object_2d &object2d) {
     x_pos = object2d.Get_x();
     y_pos = object2d.Get_y();
-    strcpy(path,object2d.GetPath());
-    weight = mass;
-    is_movable = move;
-    friction = friction_force;
-    is_rotate = rotation;
-    angle = a;
-    reaction = react;
+    width = object2d.Get_width();
+    height = object2d.Get_height();
+    strcpy(tex_path, object2d.GetPath());
+    return *this;
 }
 
-int RigidBody::GetX() {
-    return x_pos;
-}
-
-int RigidBody::GetY() {
-    return y_pos;
+int RigidBody::Get_x() {
+    return Object_2d::Get_x();
 }
 
 char *RigidBody::GetPath() {
-    return path;
+    return Object_2d::GetPath();
 }
 
-void RigidBody::move_right() {
-    if(is_movable) {
-        x_pos += int(reaction);
-    }
+int RigidBody::Get_y() {
+    return Object_2d::Get_y();
 }
 
-void RigidBody::move_left() {
-    if(is_movable){
-        x_pos -= int(reaction);
-    }
+int RigidBody::Get_width() {
+    return Object_2d::Get_width();
 }
 
-void RigidBody::move_up() {
-    if(is_movable){
-        y_pos -= int(reaction);
-    }
+int RigidBody::Get_height() {
+    return Object_2d::Get_height();
 }
 
-void RigidBody::move_down() {
-    if(is_movable){
-        y_pos += int(reaction);
-    }
+void RigidBody::ChangeX(int x0) {
+    x_pos = x0;
+}
+
+void RigidBody::ChangeY(int y0) {
+    y_pos = y0;
+}
+
+bool RigidBody::Is_movable() {
+    return is_movable;
 }

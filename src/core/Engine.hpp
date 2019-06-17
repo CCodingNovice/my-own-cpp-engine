@@ -13,8 +13,8 @@ namespace my_engine{
         void set_window_options(int x_pos, int y_pos, int width, int height, const char title[100], Uint32 flags);
         void set_renderer_options(Uint32 flags);
         void clear_renderer();
-        void draw_2d_object(Object_2d object2d, int width, int height, float scale);
-        void draw_2d_object(RigidBody rb, int width, int height, float scale);
+        void draw_2d_object(Object_2d object2d, float scale);
+        void draw_2d_object(RigidBody rb, float scale);
         void render_frame();
 
     private:

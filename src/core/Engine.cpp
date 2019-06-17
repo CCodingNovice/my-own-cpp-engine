@@ -28,12 +28,12 @@ void Engine::clear_renderer() {
     SDL_RenderClear(renderer);
 }
 
-void Engine::draw_2d_object(Object_2d object2d, int width, int height, float scale) {
+void Engine::draw_2d_object(Object_2d object2d, float scale) {
     SDL_Rect object_rect;
     object_rect.x = object2d.Get_x();
     object_rect.y = object2d.Get_y();
-    object_rect.w = width;
-    object_rect.h = height;
+    object_rect.w = object2d.Get_width();
+    object_rect.h = object2d.Get_height();
     SDL_Texture *tex = IMG_LoadTexture(renderer, object2d.GetPath());
     SDL_RenderCopy(renderer, tex, nullptr, &object_rect);
 }
@@ -42,12 +42,12 @@ void Engine::render_frame() {
     SDL_RenderPresent(renderer);
 }
 
-void Engine::draw_2d_object(RigidBody rb, int width, int height, float scale) {
+void Engine::draw_2d_object(RigidBody rb, float scale) {
     SDL_Rect object_rect;
-    object_rect.x = rb.GetX();
-    object_rect.y = rb.GetY();
-    object_rect.w = width;
-    object_rect.h = height;
+    object_rect.x = rb.Get_x();
+    object_rect.y = rb.Get_y();
+    object_rect.w = rb.Get_width();
+    object_rect.h = rb.Get_height();
     SDL_Texture *tex = IMG_LoadTexture(renderer, rb.GetPath());
     SDL_RenderCopy(renderer, tex, nullptr, &object_rect);
     SDL_DestroyTexture(tex);
