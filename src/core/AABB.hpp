@@ -10,6 +10,7 @@ public:
 
 class AABB {
 public:
+    AABB();
     bool AABBvsAABB(AABB object, int velocity);
     AABB& operator = (RigidBody rigidBody);
 private:

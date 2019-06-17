@@ -6,7 +6,7 @@
 #include "src/core/RigidBody.hpp"
 #include <vector>
 
-const Uint8 *keys = SDL_GetKeyboardState(NULL);
+const Uint8 *keys = SDL_GetKeyboardState(nullptr);
 using namespace my_engine;
 
 int main(int argc, char **argv) {

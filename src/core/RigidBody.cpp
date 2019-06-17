@@ -54,3 +54,11 @@ void RigidBody::ChangeY(int y0) {
 bool RigidBody::Is_movable() {
     return is_movable;
 }
+
+float RigidBody::GetMass() {
+    return mass;
+}
+
+bool RigidBody::UsingGravity() {
+    return use_gravity;
+}

@@ -17,6 +17,8 @@ public:
     char* GetPath() override;
     void ChangeX(int x0);
     void ChangeY(int y0);
+    float GetMass();
+    bool UsingGravity();
 private:
     float mass;
     bool use_gravity;
