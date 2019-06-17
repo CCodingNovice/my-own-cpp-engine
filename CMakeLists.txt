@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.13)
 project(engine)
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/thirdparty/cmake)
 
 set(ENGINE_SOURCES
         src/core/Engine.cpp
