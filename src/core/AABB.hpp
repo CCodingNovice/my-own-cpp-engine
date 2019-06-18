@@ -11,7 +11,8 @@ public:
 class AABB {
 public:
     AABB();
-    bool AABBvsAABB(AABB object, int velocity);
+
+    bool AABBvsAABB(AABB object, int xvelocity, int yvelocity);
     AABB& operator = (RigidBody rigidBody);
 private:
     cords min;

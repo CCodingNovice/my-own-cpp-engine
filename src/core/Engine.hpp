@@ -9,6 +9,8 @@ namespace my_engine{
         friend class RigidBody;
     public:
         Engine();
+
+        ~Engine();
         void init();
         void set_window_options(int x_pos, int y_pos, int width, int height, const char title[100], Uint32 flags);
         void set_renderer_options(Uint32 flags);

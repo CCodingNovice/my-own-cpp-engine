@@ -1,8 +1,4 @@
 #include "Engine.hpp"
-#include <direct.h>
-#include <string>
-#include <cstring>
-#include <iostream>
 #include <SDL_image.h>
 
 using namespace my_engine;
@@ -51,6 +47,11 @@ void Engine::draw_2d_object(RigidBody rb, float scale) {
     SDL_Texture *tex = IMG_LoadTexture(renderer, rb.GetPath());
     SDL_RenderCopy(renderer, tex, nullptr, &object_rect);
     SDL_DestroyTexture(tex);
+}
+
+Engine::~Engine() {
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
 }
 
 

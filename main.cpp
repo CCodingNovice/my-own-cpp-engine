@@ -2,9 +2,6 @@
 #include <chrono>
 #include "src/core/Physics.hpp"
 #include "src/core/Engine.hpp"
-#include "src/core/Object_2d.hpp"
-#include "src/core/RigidBody.hpp"
-#include <vector>
 
 const Uint8 *keys = SDL_GetKeyboardState(nullptr);
 using namespace my_engine;
@@ -12,7 +9,7 @@ using namespace my_engine;
 int main(int argc, char **argv) {
     Engine engine = Engine();
     Object_2d object2d = Object_2d(0, 0, 300, 250, "../src/assets/summer-synthwave-1244.bmp");
-    Object_2d object2d2 = Object_2d(500, 0, 300, 250, "../src/assets/summer-synthwave-1244.bmp");
+    Object_2d object2d2 = Object_2d(500, 400, 300, 250, "../src/assets/summer-synthwave-1244.bmp");
     RigidBody rigidBody = RigidBody(50, true, true);
     RigidBody rigidBody2 = RigidBody(50, true, true);
     rigidBody = object2d;
@@ -26,7 +23,7 @@ int main(int argc, char **argv) {
     SDL_Event e;
     bool is_stop = true;
     bool quit = false;
-    Physics physics = Physics(3, 3);
+    Physics physics = Physics(6, 6);
     engine.clear_renderer();
     engine.draw_2d_object(rigidBody, 1);
     engine.draw_2d_object(rigidBody2, 1);
@@ -44,10 +41,10 @@ int main(int argc, char **argv) {
                 physics.MoveRight(rigidBody, objects);
             if (keys[SDL_SCANCODE_A])
                 physics.MoveLeft(rigidBody, objects);
-            /*if (keys[SDL_SCANCODE_W])
-                rigidBody.move_up();
+            if (keys[SDL_SCANCODE_W])
+                physics.MoveUp(rigidBody, objects);
             if (keys[SDL_SCANCODE_S])
-                rigidBody.move_down();*/
+                physics.MoveDown(rigidBody, objects);
         }
         engine.clear_renderer();
         engine.draw_2d_object(rigidBody, 1);
