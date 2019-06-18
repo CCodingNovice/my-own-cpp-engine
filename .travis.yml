@@ -1,3 +1,8 @@
 language: cpp
 compiler:
   - gcc
+script:
+  - mkdir build
+  - cd build
+  - cmake .. -DCMAKE_BUILD_TYPE=$BUILD_CONFIGURATION
+  - cmake --build .
