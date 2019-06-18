@@ -1,3 +1,4 @@
+#include <cmath>
 #include "Physics.hpp"
 #include "AABB.hpp"
 
@@ -59,6 +60,15 @@ int Physics::Get_x_velocity() {
     return x_velocity;
 }
 
-int Physics::Get_y_velocity() {
+int Physics::Get_y_velocity(RigidBody rigidBody) {
+    y_velocity = static_cast<int>(y_velocity + floor(9.81 * 1 / 60));
     return y_velocity;
 }
+
+/*void Physics::Jump(RigidBody &rigidBody, std::vector<RigidBody> objects) {
+    for (auto &object : objects) {
+        if (!Collision(rigidBody, object, 1, 'Y') && rigidBody.Is_movable()) {
+            rigidBody.ChangeY(rigidBody.Get_y() + Get_y_velocity(rigidBody));
+        }
+    }
+}*/
