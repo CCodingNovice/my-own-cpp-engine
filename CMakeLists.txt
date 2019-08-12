@@ -31,4 +31,5 @@ find_package(SDL2_mixer REQUIRED)
 include_directories(${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR} ${SDL2_MIXER_INCLUDE_DIR})
 
 add_executable(engine main.cpp)
+
 target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY}  ${SDL2_IMAGE_LIBRARY} ${SDL2_MIXER_LIBRARY} mingw32 SDL2main SDL2 mingw32 SDL2main SDL2 -mwindows my_engine_library )

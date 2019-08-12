@@ -24,7 +24,6 @@ namespace my_engine {
 
         bool OnGround(RigidBody rigidBody, std::vector<RigidBody> objects);
 
-        /*void Jump(RigidBody &rigidBody, std::vector<RigidBody> objects);*/
         int Get_x_velocity();
 
         int Get_y_velocity();

@@ -1,5 +1,6 @@
 #include "Engine.hpp"
 #include <SDL_image.h>
+#include <cmath>
 
 using namespace my_engine;
 
@@ -28,10 +29,11 @@ void Engine::draw_2d_object(Object_2d object2d, float scale) {
     SDL_Rect object_rect;
     object_rect.x = object2d.GetPos().x;
     object_rect.y = object2d.GetPos().y;
-    object_rect.w = object2d.GetSize().x;
-    object_rect.h = object2d.GetSize().y;
+    object_rect.w = int(object2d.GetSize().x * scale);
+    object_rect.h = int(object2d.GetSize().y * scale);
     SDL_Texture *tex = IMG_LoadTexture(renderer, object2d.GetPath());
     SDL_RenderCopy(renderer, tex, nullptr, &object_rect);
+    SDL_DestroyTexture(tex);
 }
 
 void Engine::render_frame() {
@@ -56,8 +58,8 @@ Engine::~Engine() {
 }
 
 Engine::Engine(std::string md) {
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
+    window = nullptr;
+    renderer = nullptr;
     MODE = !(md == "DEBUG");
 }
 
