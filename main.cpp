@@ -67,7 +67,7 @@ int main(int argc, char **argv) {
         if (physics.Collision(rigidBody, enemy, 1, 'Y')) {
             return 0;
         }
-        if (enemy.GetPos().y > rigidBody.GetHitboxMax().y + 6d0) {
+        if (enemy.GetPos().y > rigidBody.GetHitboxMax().y + 60) {
             enemy.SetPos(vector2i(enemy.GetPos().x, enemy.GetPos().y - 700));
         }
         if (is_stop) {
