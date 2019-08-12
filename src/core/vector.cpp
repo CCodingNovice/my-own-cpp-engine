@@ -13,4 +13,7 @@ namespace my_engine {
 
     template
     class vector<2, unsigned int>;
+
+    template
+    class vector<2, float>;
 }

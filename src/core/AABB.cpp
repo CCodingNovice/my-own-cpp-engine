@@ -6,10 +6,8 @@ bool AABB::AABBvsAABB(AABB object, int x_velocity, int y_velocity) {
 }
 
 AABB &AABB::operator=(RigidBody rigidBody) {
-    min.x = rigidBody.Get_x();
-    min.y = rigidBody.Get_y();
-    max.x = rigidBody.Get_x() + rigidBody.Get_width();
-    max.y = rigidBody.Get_y() + rigidBody.Get_height();
+    min = rigidBody.GetHitboxMin();
+    max = rigidBody.GetHitboxMax();
     return *this;
 }
 

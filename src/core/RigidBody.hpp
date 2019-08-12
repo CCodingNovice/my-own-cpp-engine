@@ -1,26 +1,43 @@
 #ifndef ENGINE_RIGIDBODY_HPP
 #define ENGINE_RIGIDBODY_HPP
 
-#include <set>
 #include "Object_2d.hpp"
+#include "Hitbox.hpp"
 
-class RigidBody : Object_2d{
+class RigidBody : Object_2d, Hitbox {
 public:
     RigidBody();
+
     RigidBody(float m, bool gravity, bool movable);
+
+    RigidBody(vector2i HitboxMin, vector2i HitboxMax);
+
+    ~RigidBody();
     RigidBody& operator = (Object_2d &object2d);
-    bool Is_movable();
-    int Get_x() override;
-    int Get_y() override;
-    int Get_width() override;
-    int Get_height() override;
+
+    virtual bool Is_movable();
+
+    vector2i GetPos() override;
+
+    virtual vector2i GetTexturePos();
+
+    vector2ui GetSize() override;
     char* GetPath() override;
-    void ChangeX(int x0);
-    void ChangeY(int y0);
-    float GetMass();
-    bool UsingGravity();
-private:
+
+    virtual float GetMass();
+
+    virtual bool UsingGravity();
+
+    void SetPos(vector2i pos) override;
+
+    vector2i GetHitboxMin() override;
+
+    vector2i GetHitboxMax() override;
+
+protected:
+    float inertion;
     float mass;
+    float acceleration;
     bool use_gravity;
     bool is_movable;
 };

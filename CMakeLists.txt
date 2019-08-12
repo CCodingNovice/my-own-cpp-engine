@@ -10,7 +10,8 @@ set(ENGINE_SOURCES
         src/core/RigidBody.cpp
         src/core/AABB.cpp
         src/core/Physics.cpp
-        )
+        src/core/Hitbox.cpp
+        src/core/Player.cpp)
 set(ENGINE_HEADERS
         src/core/vector.hpp
         src/core/Engine.hpp
@@ -18,7 +19,8 @@ set(ENGINE_HEADERS
         src/core/RigidBody.hpp
         src/core/AABB.hpp
         src/core/Physics.hpp
-        )
+        src/core/Hitbox.hpp
+        src/core/Player.hpp)
 
 add_library(my_engine_library STATIC ${ENGINE_SOURCES} ${ENGINE_HEADERS})
 target_include_directories(my_engine_library PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)

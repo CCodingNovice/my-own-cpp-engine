@@ -4,12 +4,16 @@
 #include <SDL.h>
 #include "Object_2d.hpp"
 #include "RigidBody.hpp"
+#include <string>
+#include <vector>
+
 namespace my_engine{
     class Engine{
         friend class RigidBody;
     public:
         Engine();
 
+        explicit Engine(std::string md);
         ~Engine();
         void init();
         void set_window_options(int x_pos, int y_pos, int width, int height, const char title[100], Uint32 flags);
@@ -17,11 +21,14 @@ namespace my_engine{
         void clear_renderer();
         void draw_2d_object(Object_2d object2d, float scale);
         void draw_2d_object(RigidBody rb, float scale);
+
+        void draw_objects(std::vector<RigidBody *> objects);
         void render_frame();
 
     private:
         SDL_Renderer *renderer;
         SDL_Window *window;
+        bool MODE;
     };
 }
 #endif //ENGINE_ENGINE_HPP

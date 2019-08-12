@@ -1,11 +1,10 @@
 #include <cstring>
 #include "RigidBody.hpp"
-#include "AABB.hpp"
 
 RigidBody::RigidBody() {
     mass = 1;
-    use_gravity = true;
-    is_movable = true;
+    use_gravity = false;
+    is_movable = false;
 }
 
 RigidBody::RigidBody(float m, bool gravity, bool movable) {
@@ -15,40 +14,14 @@ RigidBody::RigidBody(float m, bool gravity, bool movable) {
 }
 
 RigidBody &RigidBody::operator=(Object_2d &object2d) {
-    x_pos = object2d.Get_x();
-    y_pos = object2d.Get_y();
-    width = object2d.Get_width();
-    height = object2d.Get_height();
+    pos = object2d.GetPos();
+    size = object2d.GetSize();
     strcpy(tex_path, object2d.GetPath());
     return *this;
 }
 
-int RigidBody::Get_x() {
-    return Object_2d::Get_x();
-}
-
 char *RigidBody::GetPath() {
     return Object_2d::GetPath();
-}
-
-int RigidBody::Get_y() {
-    return Object_2d::Get_y();
-}
-
-int RigidBody::Get_width() {
-    return Object_2d::Get_width();
-}
-
-int RigidBody::Get_height() {
-    return Object_2d::Get_height();
-}
-
-void RigidBody::ChangeX(int x0) {
-    x_pos = x0;
-}
-
-void RigidBody::ChangeY(int y0) {
-    y_pos = y0;
 }
 
 bool RigidBody::Is_movable() {
@@ -62,3 +35,41 @@ float RigidBody::GetMass() {
 bool RigidBody::UsingGravity() {
     return use_gravity;
 }
+
+vector2i RigidBody::GetPos() {
+    return Hitbox::GetHitboxMin();
+}
+
+
+vector2ui RigidBody::GetSize() {
+    return size;
+}
+
+void RigidBody::SetPos(vector2i pos) {
+    vector2i temp;
+    temp = Hitbox::GetHitboxMin();
+    temp.x = pos.x - temp.x;
+    temp.y = pos.y - temp.y;
+    Hitbox::SetHitboxPos(temp);
+    Object_2d::SetPos(temp);
+}
+
+vector2i RigidBody::GetHitboxMax() {
+    return Hitbox::GetHitboxMax();
+}
+
+vector2i RigidBody::GetHitboxMin() {
+    return Hitbox::GetHitboxMin();
+}
+
+RigidBody::RigidBody(vector2i HitboxMin, vector2i HitboxMax) {
+    min = HitboxMin;
+    max = HitboxMax;
+}
+
+vector2i RigidBody::GetTexturePos() {
+    return pos;
+}
+
+
+RigidBody::~RigidBody() = default;
