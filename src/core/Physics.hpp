@@ -22,6 +22,8 @@ namespace my_engine {
 
         void SetVelocity(vector2i vel);
 
+        bool OnGround(RigidBody rigidBody, std::vector<RigidBody> objects);
+
         /*void Jump(RigidBody &rigidBody, std::vector<RigidBody> objects);*/
         int Get_x_velocity();
 

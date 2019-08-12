@@ -35,4 +35,3 @@ vector2i Player::GetHitboxMin() {
 vector2i Player::GetHitboxMax() {
     return RigidBody::GetHitboxMax();
 }
-

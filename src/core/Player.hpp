@@ -23,7 +23,6 @@ public:
     bool UsingGravity() override;
 
     void SetPos(vector2i pos) override;
-
 };
 
 #endif //ENGINE_PLAYER_HPP

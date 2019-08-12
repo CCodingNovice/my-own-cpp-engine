@@ -8,9 +8,9 @@ using namespace my_engine;
 
 int main(int argc, char **argv) {
     Engine engine = Engine("DEBUG");
-    Object_2d object2d = Object_2d(0, 0, 300, 250, "../src/assets/summer-synthwave-1244.bmp");
+    Object_2d object2d = Object_2d(550, 250, 300, 250, "../src/assets/summer-synthwave-1244.bmp");
     Object_2d object2d2 = Object_2d(500, 400, 300, 250, "../src/assets/summer-synthwave-1244.bmp");
-    RigidBody rigidBody = RigidBody(vector2i(0, 0), vector2i(200, 200));
+    RigidBody rigidBody = RigidBody(vector2i(570, 270), vector2i(700, 445));
     RigidBody rigidBody2 = RigidBody(vector2i(550, 450), vector2i(700, 600));
     rigidBody = object2d;
     rigidBody2 = object2d2;
@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
 
     vector2i a;
     a.x = 4;
-    a.y = 4;
+    a.y = 6;
     Physics physics = Physics(a);
 
     engine.init();
@@ -71,7 +71,6 @@ int main(int argc, char **argv) {
         engine.clear_renderer();
         engine.draw_objects(to_render);
         engine.render_frame();
-
     }
     return 0;
 }

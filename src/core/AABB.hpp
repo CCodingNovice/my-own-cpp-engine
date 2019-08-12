@@ -13,7 +13,6 @@ public:
     AABB();
     bool AABBvsAABB(AABB object, int xvelocity, int yvelocity);
     AABB& operator = (RigidBody rigidBody);
-
 };
 
 

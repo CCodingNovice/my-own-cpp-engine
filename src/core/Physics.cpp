@@ -9,7 +9,7 @@ void Physics::MoveRight(RigidBody &rigidBody, std::vector<RigidBody> objects) {
             rigidBody.SetPos(vector2i(rigidBody.GetPos().x + velocity.x, rigidBody.GetPos().y));
         }
         if (Collision(rigidBody, object, 1, 'X')) {
-            rigidBody.SetPos(vector2i(object.GetPos().x - (rigidBody.GetHitboxMax().x - rigidBody.GetHitboxMin().x) - 1,
+            rigidBody.SetPos(vector2i(object.GetPos().x - (rigidBody.GetHitboxMax().x - rigidBody.GetHitboxMin().x),
                                       rigidBody.GetPos().y));
         }
     }
@@ -21,7 +21,7 @@ void Physics::MoveLeft(RigidBody &rigidBody, std::vector<RigidBody> objects) {
             rigidBody.SetPos(vector2i(rigidBody.GetPos().x - velocity.x, rigidBody.GetPos().y));
         }
         if (Collision(rigidBody, object, 1, 'X')) {
-            rigidBody.SetPos(vector2i(object.GetHitboxMax().x + 1, rigidBody.GetPos().y));
+            rigidBody.SetPos(vector2i(object.GetHitboxMax().x, rigidBody.GetPos().y));
         }
     }
 }
@@ -32,7 +32,7 @@ void Physics::MoveUp(RigidBody &rigidBody, std::vector<RigidBody> objects) {
             rigidBody.SetPos(vector2i(rigidBody.GetPos().x, rigidBody.GetPos().y - velocity.y));
         }
         if (Collision(rigidBody, object, 1, 'Y')) {
-            rigidBody.SetPos(vector2i(rigidBody.GetPos().x, object.GetHitboxMax().y + 1));
+            rigidBody.SetPos(vector2i(rigidBody.GetPos().x, object.GetHitboxMax().y));
         }
     }
 }
@@ -43,7 +43,7 @@ void Physics::MoveDown(RigidBody &rigidBody, std::vector<RigidBody> objects) {
             rigidBody.SetPos(vector2i(rigidBody.GetPos().x, rigidBody.GetPos().y + velocity.y));
         }
         if (Collision(rigidBody, object, -1, 'Y')) {
-            rigidBody.SetPos(vector2i(rigidBody.GetPos().x, object.GetHitboxMin().y - 1));
+            rigidBody.SetPos(vector2i(rigidBody.GetPos().x, object.GetHitboxMin().y));
         }
     }
 }
@@ -71,4 +71,8 @@ int Physics::Get_y_velocity() {
 
 void Physics::SetVelocity(vector2i vel) {
     velocity = vel;
+}
+
+bool Physics::OnGround(RigidBody rigidBody, std::vector<RigidBody> objects) {
+
 }
