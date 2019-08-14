@@ -6,6 +6,7 @@
 #include "RigidBody.hpp"
 #include <string>
 #include <vector>
+#include "ScreenText.hpp"
 
 namespace my_engine{
     class Engine{
@@ -22,8 +23,10 @@ namespace my_engine{
         void draw_2d_object(Object_2d object2d, float scale);
         void draw_2d_object(RigidBody rb, float scale);
 
-        void draw_objects(std::vector<RigidBody *> objects);
+        void draw_objects(std::vector<RigidBody *> &objects);
         void render_frame();
+
+        void render_text(Text text, vector2i pos);
 
     private:
         SDL_Renderer *renderer;

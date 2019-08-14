@@ -11,7 +11,8 @@ set(ENGINE_SOURCES
         src/core/AABB.cpp
         src/core/Physics.cpp
         src/core/Hitbox.cpp
-        src/core/Player.cpp)
+        src/core/Player.cpp
+        src/core/ScreenText.cpp)
 set(ENGINE_HEADERS
         src/core/vector.hpp
         src/core/Engine.hpp
@@ -20,7 +21,8 @@ set(ENGINE_HEADERS
         src/core/AABB.hpp
         src/core/Physics.hpp
         src/core/Hitbox.hpp
-        src/core/Player.hpp)
+        src/core/Player.hpp
+        src/core/ScreenText.hpp)
 
 add_library(my_engine_library STATIC ${ENGINE_SOURCES} ${ENGINE_HEADERS})
 target_include_directories(my_engine_library PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)
@@ -28,8 +30,9 @@ target_include_directories(my_engine_library PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/
 find_package(SDL2 REQUIRED)
 find_package(SDL2_image REQUIRED)
 find_package(SDL2_mixer REQUIRED)
-include_directories(${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR} ${SDL2_MIXER_INCLUDE_DIR})
+find_package(SDL2_ttf REQUIRED)
+include_directories(${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR} ${SDL2_MIXER_INCLUDE_DIR} ${SDL2_TTF_INCLUDE_DIR})
 
 add_executable(engine main.cpp)
 
-target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY}  ${SDL2_IMAGE_LIBRARY} ${SDL2_MIXER_LIBRARY} mingw32 SDL2main SDL2 mingw32 SDL2main SDL2 -mwindows my_engine_library )
+target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARY} ${SDL2_MIXER_LIBRARY} ${SDL2_TTF_LIBRARY} mingw32 SDL2main SDL2 mingw32 SDL2main SDL2 -mwindows my_engine_library)

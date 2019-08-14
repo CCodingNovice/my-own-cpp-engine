@@ -34,6 +34,8 @@ public:
 
     vector2i GetHitboxMax() override;
 
+    SDL_Texture *GetTexture() override;
+
 protected:
     float inertion;
     float mass;

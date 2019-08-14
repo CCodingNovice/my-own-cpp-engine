@@ -71,5 +71,9 @@ vector2i RigidBody::GetTexturePos() {
     return pos;
 }
 
+SDL_Texture *RigidBody::GetTexture() {
+    return Object_2d::GetTexture();
+}
+
 
 RigidBody::~RigidBody() = default;

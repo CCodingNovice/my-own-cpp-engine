@@ -2,13 +2,16 @@
 
 #include <cstring>
 
-Object_2d::Object_2d() = default;
+Object_2d::Object_2d() {
+    texture = nullptr;
+}
 
 Object_2d::Object_2d(int x, int y, unsigned int w, unsigned int h, const char texturePath[100]) {
     pos.x = x;
     pos.y = y;
     size.x = w;
     size.y = h;
+    texture = nullptr;
     strcpy(tex_path, texturePath);
 }
 
@@ -27,4 +30,12 @@ vector2i Object_2d::GetPos() {
 
 vector2ui Object_2d::GetSize() {
     return size;
+}
+
+Object_2d::~Object_2d() {
+    SDL_DestroyTexture(texture);
+}
+
+SDL_Texture *Object_2d::GetTexture() {
+    return texture;
 }
