@@ -7,6 +7,7 @@ using namespace my_engine;
 Engine::Engine() {
     window = nullptr;
     renderer = nullptr;
+    MODE = true;
 }
 
 void Engine::init() {
@@ -64,7 +65,9 @@ Engine::~Engine() {
 Engine::Engine(std::string md) {
     window = nullptr;
     renderer = nullptr;
-    MODE = !(md == "DEBUG");
+    if (md == "DEBUG")
+        MODE = false;
+    else MODE = true;
 }
 
 void Engine::draw_objects(std::vector<RigidBody *> &objects) {

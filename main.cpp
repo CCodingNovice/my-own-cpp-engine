@@ -11,7 +11,7 @@ using namespace my_engine;
 
 int main(int argc, char **argv) {
     TTF_Init();
-    Engine engine = Engine("DEBUG");
+    Engine engine = Engine();
 
     SDL_Color color = {255, 255, 255};
     Text ScoreDisplay = Text("../src/assets/fonts/ARIAL.ttf", 104, color, ("SCORE:" + std::to_string(SCORE)).c_str());
@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
     Object_2d En = Object_2d(720, 150, 400, 330, "../src/assets/Enemy.png");
     Object_2d background2 = Object_2d(0, 0, SCREENWIDTH, SCREENWIDTH, "../src/assets/background_100px_2.png");
 
-    RigidBody rigidBody = RigidBody(vector2i(920, 940), vector2i(1080, 1080));
+    RigidBody rigidBody = RigidBody(vector2i(920, 970), vector2i(1080, 1050));
     RigidBody enemy1 = RigidBody(vector2i(820, 350), vector2i(1040, 450));
     RigidBody enemy2 = RigidBody(vector2i(820, 350), vector2i(1040, 450));
     RigidBody enemy3 = RigidBody(vector2i(820, 350), vector2i(1040, 450));
@@ -35,8 +35,6 @@ int main(int argc, char **argv) {
     std::vector<RigidBody> objects;
     std::vector<RigidBody *> to_render;
 
-    objects.push_back(enemy1);
-    objects.push_back(enemy2);
     objects.push_back(left_bound);
     objects.push_back(right_bound);
 
@@ -45,6 +43,8 @@ int main(int argc, char **argv) {
     to_render.push_back(&left_bound);
     to_render.push_back(&right_bound);
 
+    bool en2 = false;
+    bool en3 = false;
     vector2i a;
     a.x = 4;
     a.y = 6;
@@ -62,39 +62,82 @@ int main(int argc, char **argv) {
     engine.draw_2d_object(rigidBody, 1);
     engine.draw_2d_object(enemy1, 1);
     engine.render_frame();
+    srand(unsigned(std::time(nullptr)));
+    int seed = std::rand() % 1000;
     while (!quit) {
         while (SDL_PollEvent(&e)) {
             if (e.type == SDL_MOUSEBUTTONDOWN || e.key.keysym.sym == SDLK_ESCAPE) {
                 quit = true;
             }
         }
-        is_stop = !(keys[SDL_SCANCODE_W] || keys[SDL_SCANCODE_D] || keys[SDL_SCANCODE_S] ||
-                    keys[SDL_SCANCODE_A]);
+        is_stop = !(keys[SDL_SCANCODE_A] || keys[SDL_SCANCODE_D]);
+
         physics.SetVelocity(vector2i(1, 0));
-        enemy1.SetPos(vector2i(enemy1.GetPos().x, enemy1.GetPos().y + 1));
-        if (physics.Collision(rigidBody, enemy1, 1, 'Y') || physics.Collision(rigidBody, enemy2, 1, 'Y')) {
+        if (physics.Collision(rigidBody, enemy1, 1, 'Y') || physics.Collision(rigidBody, enemy2, 1, 'Y') ||
+            physics.Collision(rigidBody, enemy3, 1, 'Y')) {
             return 0;
         }
+        enemy1.SetPos(vector2i(enemy1.GetPos().x, enemy1.GetPos().y + 1));
+        if (to_render.size() == 4 && enemy1.GetPos().y > 600) {
+            if (seed > 500) {
+                enemy2.SetPos(vector2i(680, 350));
+                to_render.push_back(&enemy2);
+                en2 = true;
+            } else {
+                enemy3.SetPos(vector2i(970, 350));
+                to_render.push_back(&enemy3);
+                en3 = true;
+            }
+        }
+        if (enemy2.GetPos().y - 350 > 200 && en2 && !en3) {
+            enemy3.SetPos(vector2i(970, 350));
+            to_render.push_back(&enemy3);
+            en3 = true;
+        }
+        if (enemy3.GetPos().y - 350 > 200 && en3 && !en2) {
+            enemy2.SetPos(vector2i(680, 350));
+            to_render.push_back(&enemy2);
+            en2 = true;
+        }
+        if (en2) {
+            if (enemy2.GetPos().y % 3 == 0)
+                enemy2.SetPos(vector2i(enemy2.GetPos().x - 1, enemy2.GetPos().y + 1));
+            else enemy2.SetPos(vector2i(enemy2.GetPos().x, enemy2.GetPos().y + 1));
+        }
+        if (en3) {
+            if (enemy3.GetPos().y % 3 == 0)
+                enemy3.SetPos(vector2i(enemy3.GetPos().x + 1, enemy3.GetPos().y + 1));
+            else enemy3.SetPos(vector2i(enemy3.GetPos().x, enemy3.GetPos().y + 1));
+        }
+
         if (enemy1.GetPos().y > rigidBody.GetHitboxMax().y + 60) {
-            enemy1.SetPos(vector2i(enemy1.GetPos().x, enemy1.GetPos().y - 700));
+            enemy1.SetPos(vector2i(enemy1.GetPos().x, 350));
             ++SCORE;
             ScoreDisplay.EditText(("SCORE:" + std::to_string(SCORE)).c_str());
         }
-        if (enemy1.GetPos().y > 700 && to_render.size() == 4) {
-            enemy2.SetPos(vector2i(700, 350));
-            to_render.push_back(&enemy2);
-        }
+
         if (enemy2.GetPos().y > rigidBody.GetHitboxMax().y + 60) {
             enemy2.SetPos(vector2i(700, 350));
             ++SCORE;
             ScoreDisplay.EditText(("SCORE:" + std::to_string(SCORE)).c_str());
-            to_render.pop_back();
         }
-        if (to_render.size() != 4) {
-            if (enemy2.GetPos().y % 3 == 0) {
-                enemy2.SetPos(vector2i(enemy2.GetPos().x - 1, enemy2.GetPos().y + 1));
-            } else enemy2.SetPos(vector2i(enemy2.GetPos().x, enemy2.GetPos().y + 1));
+        if (enemy3.GetPos().y > rigidBody.GetHitboxMax().y + 60) {
+            enemy3.SetPos(vector2i(900, 350));
+            ++SCORE;
+            ScoreDisplay.EditText(("SCORE:" + std::to_string(SCORE)).c_str());
         }
+//        if (enemy3.GetPos().y % 3 == 0) {
+//            enemy3.SetPos(vector2i(enemy2.GetPos().x + 1, enemy2.GetPos().y + 1));
+//        } else enemy3.SetPos(vector2i(enemy2.GetPos().x, enemy2.GetPos().y + 1));
+//        if(to_render.size() == 5 && enemy1.GetHitboxMax().y > enemy2.GetHitboxMin().y){
+//            enemy3.SetPos(vector2i(970, 350));
+//            to_render.push_back(&enemy3);
+//        }
+//        if (to_render.size() != 4) {
+//            if (enemy2.GetPos().y % 3 == 0) {
+//                enemy2.SetPos(vector2i(enemy2.GetPos().x - 1, enemy2.GetPos().y + 1));
+//            } else enemy2.SetPos(vector2i(enemy2.GetPos().x, enemy2.GetPos().y + 1));
+//        }
         if (is_stop) {
             physics.SetVelocity(vector2i(0, 0));
         } else {

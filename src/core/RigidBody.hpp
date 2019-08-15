@@ -4,7 +4,7 @@
 #include "Object_2d.hpp"
 #include "Hitbox.hpp"
 
-class RigidBody : Object_2d, Hitbox {
+class RigidBody : public Object_2d, public Hitbox {
 public:
     RigidBody();
 

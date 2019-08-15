@@ -3,18 +3,16 @@
 
 #include "core/vector.hpp"
 
-using namespace my_engine;
-
 class Hitbox {
 public:
-    virtual vector2i GetHitboxMin();
+    virtual my_engine::vector2i GetHitboxMin();
 
-    virtual vector2i GetHitboxMax();
+    virtual my_engine::vector2i GetHitboxMax();
 
-    virtual void SetHitboxPos(vector2i deltaL);
+    virtual void SetHitboxPos(my_engine::vector2i deltaL);
 
 protected:
-    vector2i min, max;
+    my_engine::vector2i min, max;
 };
 
 #endif //ENGINE_HITBOX_HPP
