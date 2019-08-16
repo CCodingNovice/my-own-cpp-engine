@@ -5,6 +5,7 @@
 
 #define SCREENWIDTH 1920
 #define SCREENHEIGHT 1080
+
 int SCORE = 0;
 const Uint8 *keys = SDL_GetKeyboardState(nullptr);
 using namespace my_engine;
@@ -55,7 +56,7 @@ int main(int argc, char **argv) {
                               SDL_WINDOW_FULLSCREEN | SDL_WINDOW_SHOWN);
     engine.set_renderer_options(SDL_RENDERER_ACCELERATED);
     SDL_Event e;
-    bool is_stop = true;
+    bool is_stop;
     bool quit = false;
 
     engine.clear_renderer();
@@ -126,18 +127,6 @@ int main(int argc, char **argv) {
             ++SCORE;
             ScoreDisplay.EditText(("SCORE:" + std::to_string(SCORE)).c_str());
         }
-//        if (enemy3.GetPos().y % 3 == 0) {
-//            enemy3.SetPos(vector2i(enemy2.GetPos().x + 1, enemy2.GetPos().y + 1));
-//        } else enemy3.SetPos(vector2i(enemy2.GetPos().x, enemy2.GetPos().y + 1));
-//        if(to_render.size() == 5 && enemy1.GetHitboxMax().y > enemy2.GetHitboxMin().y){
-//            enemy3.SetPos(vector2i(970, 350));
-//            to_render.push_back(&enemy3);
-//        }
-//        if (to_render.size() != 4) {
-//            if (enemy2.GetPos().y % 3 == 0) {
-//                enemy2.SetPos(vector2i(enemy2.GetPos().x - 1, enemy2.GetPos().y + 1));
-//            } else enemy2.SetPos(vector2i(enemy2.GetPos().x, enemy2.GetPos().y + 1));
-//        }
         if (is_stop) {
             physics.SetVelocity(vector2i(0, 0));
         } else {
