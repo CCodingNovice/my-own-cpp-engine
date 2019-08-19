@@ -66,6 +66,10 @@ SDL_Color ScreenWidget::GetSecondaryColor() {
     return secondary_color;
 }
 
+const char *ScreenWidget::GetText() {
+    return text.c_str();
+}
+
 Button::Button() : ScreenWidget::ScreenWidget() {}
 
 Button::Button(const char *w_text, SDL_Color pr_color, SDL_Color sec_color) : ScreenWidget(w_text, pr_color,
@@ -73,3 +77,36 @@ Button::Button(const char *w_text, SDL_Color pr_color, SDL_Color sec_color) : Sc
 
 Button::Button(my_engine::vector2i pos, my_engine::vector2i s, const char *w_text, SDL_Color pr_color,
                SDL_Color sec_color) : ScreenWidget(pos, s, w_text, pr_color, sec_color) {}
+
+my_engine::vector2i Button::GetPos() {
+    return ScreenWidget::GetPos();
+}
+
+my_engine::vector2i Button::GetSize() {
+    return ScreenWidget::GetSize();
+}
+
+void Button::SetPos(my_engine::vector2i pos) {
+    ScreenWidget::SetPos(pos);
+}
+
+void Button::SetSize(my_engine::vector2i s) {
+    ScreenWidget::SetSize(s);
+}
+
+SDL_Rect Button::GetRect() {
+    return ScreenWidget::GetRect();
+}
+
+SDL_Color Button::GetPrimaryColor() {
+    return ScreenWidget::GetPrimaryColor();
+}
+
+SDL_Color Button::GetSecondaryColor() {
+    return ScreenWidget::GetSecondaryColor();
+}
+
+bool Button::OnClick(my_engine::vector2i mouse_pos) {
+    return mouse_pos.x > position.x && mouse_pos.x < position.x + size.x
+           && mouse_pos.y > position.y && mouse_pos.y < position.y + size.y;
+}

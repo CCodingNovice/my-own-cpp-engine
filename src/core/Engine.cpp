@@ -65,9 +65,7 @@ Engine::~Engine() {
 Engine::Engine(std::string md) {
     window = nullptr;
     renderer = nullptr;
-    if (md == "DEBUG")
-        MODE = false;
-    else MODE = true;
+    MODE = !(md == "DEBUG");
 }
 
 void Engine::draw_objects(std::vector<RigidBody *> &objects) {
@@ -106,4 +104,26 @@ void Engine::render_text(Text text, vector2i pos) {
     SDL_DestroyTexture(texture);
 }
 
+void Engine::draw_widget(ScreenWidget widget) {
+    SDL_Rect rect = widget.GetRect();
+    SDL_RenderFillRect(renderer, &rect);
+    auto FONT = TTF_OpenFont("../src/assets/fonts/ARIAL.ttf", 24);
+    auto surface = TTF_RenderText_Solid(FONT, widget.GetText(), widget.GetSecondaryColor());
+    TTF_CloseFont(FONT);
+    auto tex = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_RenderCopy(renderer, tex, nullptr, &rect);
+    SDL_DestroyTexture(tex);
+    SDL_FreeSurface(surface);
+}
 
+void Engine::draw_widget(Button button) {
+    SDL_Rect rect = button.GetRect();
+    SDL_RenderFillRect(renderer, &rect);
+    auto FONT = TTF_OpenFont("../src/assets/fonts/ARIAL.ttf", 24);
+    auto surface = TTF_RenderText_Solid(FONT, button.GetText(), button.GetSecondaryColor());
+    TTF_CloseFont(FONT);
+    auto tex = SDL_CreateTextureFromSurface(renderer, surface);
+    SDL_RenderCopy(renderer, tex, nullptr, &rect);
+    SDL_DestroyTexture(tex);
+    SDL_FreeSurface(surface);
+}

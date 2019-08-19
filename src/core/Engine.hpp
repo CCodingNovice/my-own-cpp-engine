@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include "ScreenText.hpp"
+#include "ScreenMenu.hpp"
 
 namespace my_engine{
     class Engine{
@@ -22,11 +23,13 @@ namespace my_engine{
         void clear_renderer();
         void draw_2d_object(Object_2d object2d, float scale);
         void draw_2d_object(RigidBody rb, float scale);
-
         void draw_objects(std::vector<RigidBody *> &objects);
         void render_frame();
-
         void render_text(Text text, vector2i pos);
+
+        void draw_widget(ScreenWidget widget);
+
+        void draw_widget(Button button);
 
     private:
         SDL_Renderer *renderer;
