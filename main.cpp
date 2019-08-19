@@ -53,7 +53,7 @@ int main(int argc, char **argv) {
     Physics physics = Physics(a);
 
     bool menu = true;
-    Button start_btn = Button(vector2i(840, 600), vector2i(1020, 750), "START", {100, 100, 200}, {255, 255, 255});
+    Button start_btn = Button(vector2i(840, 600), vector2i(200, 100), "START", {100, 100, 200}, {255, 255, 255});
 
     engine.init();
     engine.set_window_options(SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 0, 0, "Example game",
@@ -67,6 +67,26 @@ int main(int argc, char **argv) {
     bool is_stop;
     bool esc_stop;
     bool quit = false;
+
+    while (menu) {
+        engine.clear_renderer();
+        engine.draw_2d_object(background2, 1.0);
+        engine.draw_widget(start_btn);
+        engine.render_frame();
+        while (SDL_PollEvent(&e)) {
+            if (e.key.keysym.sym == SDLK_ESCAPE) {
+                menu = false;
+                quit = true;
+            }
+            if (e.type == SDL_MOUSEBUTTONDOWN) {
+                vector2i pos;
+                SDL_GetMouseState(&pos.x, &pos.y);
+                if (start_btn.OnClick(pos)) {
+                    menu = false;
+                }
+            }
+        }
+    }
 
 
     srand(unsigned(std::time(nullptr)));
