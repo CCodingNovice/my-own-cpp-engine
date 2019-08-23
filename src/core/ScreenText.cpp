@@ -27,6 +27,7 @@ SDL_Texture *Text::GetTexture(SDL_Renderer *ren) {
 }
 
 void Text::EditText(const char *text) {
+    SDL_FreeSurface(surface);
     FONT = TTF_OpenFont(name.c_str(), size);
     surface = TTF_RenderText_Solid(FONT, text, color);
     TTF_CloseFont(FONT);

@@ -54,6 +54,8 @@ int main(int argc, char **argv) {
 
     bool menu = true;
     Button start_btn = Button(vector2i(840, 600), vector2i(200, 100), "START", {100, 100, 200}, {255, 255, 255});
+    Button resume_btn = Button(vector2i(840, 600), vector2i(200, 100), "RESUME", {100, 100, 200}, {255, 255, 255});
+    Button quit_btn = Button(vector2i(840, 750), vector2i(200, 100), "EXIT", {100, 100, 200}, {255, 255, 255});
 
     engine.init();
     engine.set_window_options(SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 0, 0, "Example game",
@@ -88,16 +90,16 @@ int main(int argc, char **argv) {
         }
     }
 
-
     srand(unsigned(std::time(nullptr)));
     int seed = std::rand() % 1000;
 
     while (!quit) {
         while (SDL_PollEvent(&e)) {
             if (e.key.keysym.sym == SDLK_ESCAPE) {
-                quit = true;
+                menu = true;
             }
         }
+
         is_stop = !(keys[SDL_SCANCODE_A] || keys[SDL_SCANCODE_D]);
         physics.SetVelocity(vector2i(1, 0));
         if (physics.Collision(rigidBody, enemy1, 1, 'Y') || physics.Collision(rigidBody, enemy2, 1, 'Y') ||
@@ -165,11 +167,32 @@ int main(int argc, char **argv) {
                 physics.MoveLeft(rigidBody, objects);
             }
         }
+
         engine.clear_renderer();
         engine.draw_2d_object(background2, 1.0);
         engine.draw_objects(to_render);
         engine.render_text(ScoreDisplay, vector2i(0, 0));
         engine.render_frame();
+        while (menu) {
+            engine.clear_renderer();
+            engine.draw_2d_object(background2, 1.0);
+            engine.draw_widget(resume_btn);
+            engine.draw_widget(quit_btn);
+            engine.render_frame();
+            while (SDL_PollEvent(&e)) {
+                if (e.type == SDL_MOUSEBUTTONDOWN) {
+                    vector2i pos;
+                    SDL_GetMouseState(&pos.x, &pos.y);
+                    if (start_btn.OnClick(pos)) {
+                        menu = false;
+                    }
+                    if (quit_btn.OnClick(pos)) {
+                        menu = false;
+                        quit = true;
+                    }
+                }
+            }
+        }
     }
     soundtrack.MusicStop();
     return 0;

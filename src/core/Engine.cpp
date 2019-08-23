@@ -70,16 +70,15 @@ Engine::Engine(std::string md) {
 
 void Engine::draw_objects(std::vector<RigidBody *> &objects) {
     SDL_Rect object_rect;
-    for (auto object : objects) {
-        SDL_Texture *tex = object->GetTexture();
-        if (tex == nullptr) {
-            tex = IMG_LoadTexture(renderer, object->GetPath());
-        }
+    SDL_Texture *tex;
+    for (auto &object : objects) {
+        tex = IMG_LoadTexture(renderer, object->GetPath());
         object_rect.x = object->GetTexturePos().x;
         object_rect.y = object->GetTexturePos().y;
         object_rect.w = object->GetSize().x;
         object_rect.h = object->GetSize().y;
         SDL_RenderCopy(renderer, tex, nullptr, &object_rect);
+        SDL_DestroyTexture(tex);
     }
     if (!MODE) {
         for (auto &object : objects) {
