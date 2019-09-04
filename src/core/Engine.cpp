@@ -26,13 +26,13 @@ void Engine::clear_renderer() {
     SDL_RenderClear(renderer);
 }
 
-void Engine::draw_2d_object(Object_2d object2d, float scale) {
+void Engine::draw(Object_2d object2d, float scale) {
     SDL_Rect object_rect;
-    object_rect.x = object2d.GetPos().x;
-    object_rect.y = object2d.GetPos().y;
-    object_rect.w = int(object2d.GetSize().x * scale);
-    object_rect.h = int(object2d.GetSize().y * scale);
-    SDL_Texture *tex = IMG_LoadTexture(renderer, object2d.GetPath());
+    object_rect.x = object2d.getPos().x;
+    object_rect.y = object2d.getPos().y;
+    object_rect.w = int(object2d.getSize().x * scale);
+    object_rect.h = int(object2d.getSize().y * scale);
+    SDL_Texture *tex = IMG_LoadTexture(renderer, object2d.getPath());
     SDL_RenderCopy(renderer, tex, nullptr, &object_rect);
     SDL_DestroyTexture(tex);
 }
@@ -42,15 +42,15 @@ void Engine::render_frame() {
     SDL_RenderPresent(renderer);
 }
 
-void Engine::draw_2d_object(RigidBody rb, float scale) {
+void Engine::draw(RigidBody rb, float scale) {
     SDL_Rect object_rect;
-    object_rect.x = rb.GetTexturePos().x;
-    object_rect.y = rb.GetTexturePos().y;
-    object_rect.w = int(rb.GetSize().x * scale);
-    object_rect.h = int(rb.GetSize().y * scale);
-    SDL_Texture *tex = rb.GetTexture();
+    object_rect.x = rb.getTexturePos().x;
+    object_rect.y = rb.getTexturePos().y;
+    object_rect.w = int(rb.getSize().x * scale);
+    object_rect.h = int(rb.getSize().y * scale);
+    SDL_Texture *tex = rb.getTexture();
     if (tex == nullptr) {
-        tex = IMG_LoadTexture(renderer, rb.GetPath());
+        tex = IMG_LoadTexture(renderer, rb.getPath());
     }
     SDL_RenderCopy(renderer, tex, nullptr, &object_rect);
     SDL_DestroyTexture(tex);
@@ -68,46 +68,46 @@ Engine::Engine(std::string md) {
     MODE = !(md == "DEBUG");
 }
 
-void Engine::draw_objects(std::vector<RigidBody *> &objects) {
+void Engine::draw(std::vector<RigidBody *> &objects) {
     SDL_Rect object_rect;
     SDL_Texture *tex;
     for (auto &object : objects) {
-        tex = IMG_LoadTexture(renderer, object->GetPath());
-        object_rect.x = object->GetTexturePos().x;
-        object_rect.y = object->GetTexturePos().y;
-        object_rect.w = object->GetSize().x;
-        object_rect.h = object->GetSize().y;
+        tex = IMG_LoadTexture(renderer, object->getPath());
+        object_rect.x = object->getTexturePos().x;
+        object_rect.y = object->getTexturePos().y;
+        object_rect.w = object->getSize().x;
+        object_rect.h = object->getSize().y;
         SDL_RenderCopy(renderer, tex, nullptr, &object_rect);
         SDL_DestroyTexture(tex);
     }
     if (!MODE) {
         for (auto &object : objects) {
-            object_rect.x = object->GetHitboxMin().x;
-            object_rect.y = object->GetHitboxMin().y;
-            object_rect.w = object->GetHitboxMax().x - object->GetHitboxMin().x;
-            object_rect.h = object->GetHitboxMax().y - object->GetHitboxMin().y;
+            object_rect.x = object->getHitboxMin().x;
+            object_rect.y = object->getHitboxMin().y;
+            object_rect.w = object->getHitboxMax().x - object->getHitboxMin().x;
+            object_rect.h = object->getHitboxMax().y - object->getHitboxMin().y;
             SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
             SDL_RenderDrawRect(renderer, &object_rect);
         }
     }
 }
 
-void Engine::render_text(Text text, vector2i pos) {
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, text.GetSurface());
+void Engine::draw(Text text, vector2i pos) {
+    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, text.getSurface());
     SDL_Rect rect;
     rect.x = pos.x;
     rect.y = pos.y;
-    rect.w = text.GetSurface()->w;
-    rect.h = text.GetSurface()->h;
+    rect.w = text.getSurface()->w;
+    rect.h = text.getSurface()->h;
     SDL_RenderCopy(renderer, texture, nullptr, &rect);
     SDL_DestroyTexture(texture);
 }
 
-void Engine::draw_widget(ScreenWidget widget) {
-    SDL_Rect rect = widget.GetRect();
+void Engine::draw(ScreenWidget widget) {
+    SDL_Rect rect = widget.getRect();
     SDL_RenderFillRect(renderer, &rect);
     auto FONT = TTF_OpenFont("../src/assets/fonts/ARIAL.ttf", 24);
-    auto surface = TTF_RenderText_Solid(FONT, widget.GetText(), widget.GetSecondaryColor());
+    auto surface = TTF_RenderText_Solid(FONT, widget.getText(), widget.getSecondaryColor());
     TTF_CloseFont(FONT);
     auto tex = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_RenderCopy(renderer, tex, nullptr, &rect);
@@ -115,14 +115,36 @@ void Engine::draw_widget(ScreenWidget widget) {
     SDL_FreeSurface(surface);
 }
 
-void Engine::draw_widget(Button button) {
-    SDL_Rect rect = button.GetRect();
+void Engine::draw(Button button) {
+    SDL_Rect rect = button.getRect();
     SDL_RenderFillRect(renderer, &rect);
     auto FONT = TTF_OpenFont("../src/assets/fonts/ARIAL.ttf", 24);
-    auto surface = TTF_RenderText_Solid(FONT, button.GetText(), button.GetSecondaryColor());
+    auto surface = TTF_RenderText_Solid(FONT, button.getText(), button.getSecondaryColor());
     TTF_CloseFont(FONT);
     auto tex = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_RenderCopy(renderer, tex, nullptr, &rect);
     SDL_DestroyTexture(tex);
     SDL_FreeSurface(surface);
+}
+
+void Engine::draw(Player player, float scale) {
+    SDL_Rect object_rect;
+    object_rect.x = player.getTexturePos().x;
+    object_rect.y = player.getTexturePos().y;
+    object_rect.w = int(player.getSize().x * scale);
+    object_rect.h = int(player.getSize().y * scale);
+    SDL_Texture *tex = player.getTexture();
+    if (tex == nullptr) {
+        tex = IMG_LoadTexture(renderer, player.getPath());
+    }
+    SDL_RenderCopy(renderer, tex, nullptr, &object_rect);
+    SDL_DestroyTexture(tex);
+    if(!MODE){
+        object_rect.x = player.getHitboxMin().x;
+        object_rect.y = player.getHitboxMin().y;
+        object_rect.w = player.getHitboxMax().x - player.getHitboxMin().x;
+        object_rect.h = player.getHitboxMax().y - player.getHitboxMin().y;
+        SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
+        SDL_RenderDrawRect(renderer, &object_rect);
+    }
 }

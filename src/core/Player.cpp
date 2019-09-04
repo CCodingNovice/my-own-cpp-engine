@@ -1,37 +1,48 @@
 #include "Player.hpp"
 
-vector2ui Player::GetSize() {
-    return RigidBody::GetSize();
+Player::Player() : RigidBody::RigidBody() {
+    this->score = 0;
 }
 
-vector2i Player::GetPos() {
-    return RigidBody::GetPos();
+Player::Player(int x, int y, unsigned int width, unsigned int height, const char *texturePath, vector2i hitboxMin, vector2i hitboxMax) : RigidBody(x, y, width,
+                                                                                                           height,
+                                                                                                           texturePath) {
+    min = hitboxMin;
+    max = hitboxMax;
 }
 
-bool Player::Is_movable() {
-    return RigidBody::Is_movable();
+Player::~Player() {
+    SDL_DestroyTexture(this->texture);
 }
 
-char *Player::GetPath() {
-    return RigidBody::GetPath();
+vector2i Player::getPos() {
+    return RigidBody::getPos();
 }
 
-float Player::GetMass() {
-    return RigidBody::GetMass();
+vector2i Player::getTexturePos() {
+    return RigidBody::getTexturePos();
 }
 
-bool Player::UsingGravity() {
-    return RigidBody::UsingGravity();
+vector2ui Player::getSize() {
+    return RigidBody::getSize();
 }
 
-void Player::SetPos(vector2i pos) {
-    RigidBody::SetPos(pos);
+char *Player::getPath() {
+    return RigidBody::getPath();
 }
 
-vector2i Player::GetHitboxMin() {
-    return RigidBody::GetHitboxMin();
+void Player::setPos(vector2i pos) {
+    RigidBody::setPos(pos);
 }
 
-vector2i Player::GetHitboxMax() {
-    return RigidBody::GetHitboxMax();
+vector2i Player::getHitboxMin() {
+    return RigidBody::getHitboxMin();
+}
+
+vector2i Player::getHitboxMax() {
+    return RigidBody::getHitboxMax();
+}
+
+SDL_Texture *Player::getTexture() {
+    return RigidBody::getTexture();
 }

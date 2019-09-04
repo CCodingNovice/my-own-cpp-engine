@@ -2,6 +2,7 @@
 #define ENGINE_AABB_HPP
 
 #include "RigidBody.hpp"
+#include "Player.hpp"
 #include "vector.hpp"
 
 using namespace my_engine;
@@ -13,6 +14,7 @@ public:
     AABB();
     bool AABBvsAABB(AABB object, int xvelocity, int yvelocity);
     AABB& operator = (RigidBody rigidBody);
+    AABB& operator = (Player player);
 };
 
 

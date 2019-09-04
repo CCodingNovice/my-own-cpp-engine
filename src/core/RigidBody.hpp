@@ -7,41 +7,23 @@
 class RigidBody : public Object_2d, public Hitbox {
 public:
     RigidBody();
-
-    RigidBody(float m, bool gravity, bool movable);
-
+    RigidBody(bool isMovable);
+    RigidBody(int x, int y, unsigned int width, unsigned int height, const char *texturePath);
     RigidBody(vector2i HitboxMin, vector2i HitboxMax);
-
     ~RigidBody();
     RigidBody& operator = (Object_2d &object2d);
-
-    virtual bool Is_movable();
-
-    vector2i GetPos() override;
-
-    virtual vector2i GetTexturePos();
-
-    vector2ui GetSize() override;
-    char* GetPath() override;
-
-    virtual float GetMass();
-
-    virtual bool UsingGravity();
-
-    void SetPos(vector2i pos) override;
-
-    vector2i GetHitboxMin() override;
-
-    vector2i GetHitboxMax() override;
-
-    SDL_Texture *GetTexture() override;
+    virtual bool is_movable();
+    vector2i getPos() override;
+    virtual vector2i getTexturePos();
+    vector2ui getSize() override;
+    char* getPath() override;
+    void setPos(vector2i pos) override;
+    vector2i getHitboxMin() override;
+    vector2i getHitboxMax() override;
+    SDL_Texture *getTexture() override;
 
 protected:
-    float inertion;
-    float mass;
-    float acceleration;
-    bool use_gravity;
-    bool is_movable;
+    bool movable;
 };
 
 #endif //ENGINE_RIGIDBODY_HPP

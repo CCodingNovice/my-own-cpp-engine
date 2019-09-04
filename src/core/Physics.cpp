@@ -3,69 +3,69 @@
 #include "Physics.hpp"
 #include "AABB.hpp"
 
-void Physics::MoveRight(RigidBody &rigidBody, std::vector<RigidBody> objects) {
+void Physics::moveRight(Player &rigidBody, std::vector<RigidBody> objects) {
     if (objects.empty()) {
-        rigidBody.SetPos(vector2i(rigidBody.GetPos().x + velocity.x, rigidBody.GetPos().y));
+        rigidBody.setPos(vector2i(rigidBody.getPos().x + velocity.x, rigidBody.getPos().y));
         return;
     }
     for (auto &object : objects) {
-        if (!Collision(rigidBody, object, 1, 'X')) {
-            rigidBody.SetPos(vector2i(rigidBody.GetPos().x + velocity.x, rigidBody.GetPos().y));
+        if (!collision(rigidBody, object, 1, 'X')) {
+            rigidBody.setPos(vector2i(rigidBody.getPos().x + velocity.x, rigidBody.getPos().y));
         }
-        if (Collision(rigidBody, object, 1, 'X')) {
-            rigidBody.SetPos(vector2i(object.GetPos().x - (rigidBody.GetHitboxMax().x - rigidBody.GetHitboxMin().x),
-                                      rigidBody.GetPos().y));
+        if (collision(rigidBody, object, 1, 'X')) {
+            rigidBody.setPos(vector2i(object.getPos().x - (rigidBody.getHitboxMax().x - rigidBody.getHitboxMin().x),
+                                      rigidBody.getPos().y));
         }
     }
 }
 
-void Physics::MoveLeft(RigidBody &rigidBody, std::vector<RigidBody> objects) {
+void Physics::moveLeft(Player &rigidBody, std::vector<RigidBody> objects) {
     if (objects.empty()) {
-        rigidBody.SetPos(vector2i(rigidBody.GetPos().x - velocity.x, rigidBody.GetPos().y));
+        rigidBody.setPos(vector2i(rigidBody.getPos().x - velocity.x, rigidBody.getPos().y));
         return;
     }
     for (auto &object : objects) {
-        if (!Collision(rigidBody, object, -1, 'X')) {
-            rigidBody.SetPos(vector2i(rigidBody.GetPos().x - velocity.x, rigidBody.GetPos().y));
+        if (!collision(rigidBody, object, -1, 'X')) {
+            rigidBody.setPos(vector2i(rigidBody.getPos().x - velocity.x, rigidBody.getPos().y));
         }
-        if (Collision(rigidBody, object, -1, 'X')) {
-            rigidBody.SetPos(vector2i(object.GetHitboxMax().x, rigidBody.GetPos().y));
+        if (collision(rigidBody, object, -1, 'X')) {
+            rigidBody.setPos(vector2i(object.getHitboxMax().x, rigidBody.getPos().y));
         }
     }
 }
 
-void Physics::MoveUp(RigidBody &rigidBody, std::vector<RigidBody> objects) {
+void Physics::moveUp(Player &rigidBody, std::vector<RigidBody> objects) {
     if (objects.empty()) {
-        rigidBody.SetPos(vector2i(rigidBody.GetPos().x, rigidBody.GetPos().y - velocity.y));
+        rigidBody.setPos(vector2i(rigidBody.getPos().x, rigidBody.getPos().y - velocity.y));
         return;
     }
     for (auto &object : objects) {
-        if (!Collision(rigidBody, object, -1, 'Y')) {
-            rigidBody.SetPos(vector2i(rigidBody.GetPos().x, rigidBody.GetPos().y - velocity.y));
+        if (!collision(rigidBody, object, -1, 'Y')) {
+            rigidBody.setPos(vector2i(rigidBody.getPos().x, rigidBody.getPos().y - velocity.y));
         }
-        if (Collision(rigidBody, object, -1, 'Y')) {
-            rigidBody.SetPos(vector2i(rigidBody.GetPos().x, object.GetHitboxMax().y));
+        if (collision(rigidBody, object, -1, 'Y')) {
+            rigidBody.setPos(vector2i(rigidBody.getPos().x, object.getHitboxMax().y));
         }
     }
 }
 
-void Physics::MoveDown(RigidBody &rigidBody, std::vector<RigidBody> objects) {
+void Physics::moveDown(Player &rigidBody, std::vector<RigidBody> objects) {
     if (objects.empty()) {
-        rigidBody.SetPos(vector2i(rigidBody.GetPos().x, rigidBody.GetPos().y + velocity.y));
+        rigidBody.setPos(vector2i(rigidBody.getPos().x, rigidBody.getPos().y + velocity.y));
         return;
     }
     for (auto &object : objects) {
-        if (!Collision(rigidBody, object, 1, 'Y')) {
-            rigidBody.SetPos(vector2i(rigidBody.GetPos().x, rigidBody.GetPos().y + velocity.y));
+        if (!collision(rigidBody, object, 1, 'Y')) {
+            rigidBody.setPos(vector2i(rigidBody.getPos().x, rigidBody.getPos().y + velocity.y));
         }
-        if (Collision(rigidBody, object, 1, 'Y')) {
-            rigidBody.SetPos(vector2i(rigidBody.GetPos().x, object.GetHitboxMin().y -
-                                                            (rigidBody.GetHitboxMax().y - rigidBody.GetHitboxMin().y)));
+        if (collision(rigidBody, object, 1, 'Y')) {
+            rigidBody.setPos(vector2i(rigidBody.getPos().x, object.getHitboxMin().y -
+                                                            (rigidBody.getHitboxMax().y - rigidBody.getHitboxMin().y)));
         }
     }
 }
 
-bool Physics::Collision(RigidBody rb1, RigidBody rb2, int sign, char c) {
+bool Physics::collision(Player rb1, RigidBody rb2, int sign, char c) {
     AABB a,b;
     a = rb1;
     b = rb2;
@@ -78,24 +78,24 @@ Physics::Physics(vector2i vel) {
     velocity = vel;
 }
 
-int Physics::Get_x_velocity() {
+int Physics::get_x_velocity() {
     return velocity.x;
 }
 
-int Physics::Get_y_velocity() {
+int Physics::get_y_velocity() {
     return velocity.y;
 }
 
-void Physics::SetVelocity(vector2i vel) {
+void Physics::setVelocity(vector2i vel) {
     velocity = vel;
 }
 
-bool Physics::OnGround(RigidBody rigidBody, std::vector<RigidBody> objects) {
+bool Physics::onGround(Player rigidBody, std::vector<RigidBody> objects) {
     if (objects.empty()) {
         return false;
     }
     for (auto &object : objects) {
-        if (rigidBody.GetHitboxMax().y == object.GetHitboxMin().y)
+        if (rigidBody.getHitboxMax().y == object.getHitboxMin().y)
             return true;
     }
     return false;

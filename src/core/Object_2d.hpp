@@ -13,15 +13,15 @@ public:
 
     ~Object_2d();
 
-    virtual vector2i GetPos();
+    virtual vector2i getPos();
 
-    virtual vector2ui GetSize();
+    virtual vector2ui getSize();
 
-    virtual char* GetPath();
+    virtual char* getPath();
 
-    virtual void SetPos(vector2i l);
+    virtual void setPos(vector2i l);
 
-    virtual SDL_Texture *GetTexture();
+    virtual SDL_Texture *getTexture();
 
     SDL_Texture *texture;
 protected:

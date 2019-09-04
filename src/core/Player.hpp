@@ -4,26 +4,19 @@
 #include "Hitbox.hpp"
 #include "RigidBody.hpp"
 
-class Player : RigidBody {
+class Player : public virtual RigidBody {
 public:
-    bool Is_movable() override;
-
-    vector2i GetPos() override;
-
-    vector2ui GetSize() override;
-
-    vector2i GetHitboxMin() override;
-
-    vector2i GetHitboxMax() override;
-
-    char *GetPath() override;
-
-    float GetMass() override;
-
-    bool UsingGravity() override;
-
-    void SetPos(vector2i pos) override;
-
+    Player();
+    Player(int x, int y, unsigned int width, unsigned int height, const char *texturePath, vector2i HitboxMin, vector2i HitboxMax);
+    ~Player();
+    vector2i getPos() override;
+    vector2i getTexturePos() override;
+    vector2ui getSize() override;
+    char* getPath() override;
+    void setPos(vector2i pos) override;
+    vector2i getHitboxMin() override;
+    vector2i getHitboxMax() override;
+    SDL_Texture *getTexture() override;
 private:
     int score;
 };

@@ -6,8 +6,8 @@ bool AABB::AABBvsAABB(AABB object, int x_velocity, int y_velocity) {
 }
 
 AABB &AABB::operator=(RigidBody rigidBody) {
-    min = rigidBody.GetHitboxMin();
-    max = rigidBody.GetHitboxMax();
+    min = rigidBody.getHitboxMin();
+    max = rigidBody.getHitboxMax();
     return *this;
 }
 
@@ -16,4 +16,10 @@ AABB::AABB() {
     max.y = 0;
     min.x = 0;
     min.x = 0;
+}
+
+AABB &AABB::operator=(Player player) {
+    min = player.getHitboxMin();
+    max = player.getHitboxMax();
+    return *this;
 }

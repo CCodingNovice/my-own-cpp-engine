@@ -18,18 +18,15 @@ int main(int argc, char **argv) {
     SDL_Color color = {255, 255, 255};
     Text ScoreDisplay = Text("../src/assets/fonts/ARIAL.ttf", 104, color, ("SCORE:" + std::to_string(SCORE)).c_str());
 
-    Object_2d object2d = Object_2d(800, 800, 400, 330, "../src/assets/Car.png");
     Object_2d En = Object_2d(720, 150, 400, 330, "../src/assets/Enemy.png");
     Object_2d background2 = Object_2d(0, 0, SCREENWIDTH, SCREENWIDTH, "../src/assets/background_100px_2.png");
-
-    RigidBody rigidBody = RigidBody(vector2i(920, 970), vector2i(1080, 1050));
+    Player player = Player(800, 800, 400, 330, "../src/assets/Car.png", vector2i(920, 970), vector2i(1080, 1050));
     RigidBody enemy1 = RigidBody(vector2i(840, 360), vector2i(1020, 450));
     RigidBody enemy2 = RigidBody(vector2i(840, 360), vector2i(1020, 450));
     RigidBody enemy3 = RigidBody(vector2i(840, 360), vector2i(1020, 450));
     RigidBody left_bound = RigidBody(vector2i(0, 800), vector2i(420, 1080));
     RigidBody right_bound = RigidBody(vector2i(1500, 800), vector2i(1920, 1080));
 
-    rigidBody = object2d;
     enemy1 = En;
     enemy2 = En;
     enemy3 = En;
@@ -41,7 +38,6 @@ int main(int argc, char **argv) {
     objects.push_back(right_bound);
 
     to_render.push_back(&enemy1);
-    to_render.push_back(&rigidBody);
     to_render.push_back(&left_bound);
     to_render.push_back(&right_bound);
 
@@ -63,7 +59,7 @@ int main(int argc, char **argv) {
     engine.set_renderer_options(SDL_RENDERER_ACCELERATED);
 
     Music soundtrack = Music("../src/assets/Music/Lost_Control.mp3");
-    soundtrack.MusicPlay();
+    soundtrack.musicPlay();
 
     SDL_Event e;
     bool is_stop;
@@ -72,8 +68,8 @@ int main(int argc, char **argv) {
 
     while (menu) {
         engine.clear_renderer();
-        engine.draw_2d_object(background2, 1.0);
-        engine.draw_widget(start_btn);
+        engine.draw(background2, 1.0);
+        engine.draw(start_btn);
         engine.render_frame();
         while (SDL_PollEvent(&e)) {
             if (e.key.keysym.sym == SDLK_ESCAPE) {
@@ -83,7 +79,7 @@ int main(int argc, char **argv) {
             if (e.type == SDL_MOUSEBUTTONDOWN) {
                 vector2i pos;
                 SDL_GetMouseState(&pos.x, &pos.y);
-                if (start_btn.OnClick(pos)) {
+                if (start_btn.onClick(pos)) {
                     menu = false;
                 }
             }
@@ -101,92 +97,93 @@ int main(int argc, char **argv) {
         }
 
         is_stop = !(keys[SDL_SCANCODE_A] || keys[SDL_SCANCODE_D]);
-        physics.SetVelocity(vector2i(1, 0));
-        if (physics.Collision(rigidBody, enemy1, 1, 'Y') || physics.Collision(rigidBody, enemy2, 1, 'Y') ||
-            physics.Collision(rigidBody, enemy3, 1, 'Y')) {
+        physics.setVelocity(vector2i(1, 0));
+        if (physics.collision(player, enemy1, 1, 'Y') || physics.collision(player, enemy2, 1, 'Y') ||
+            physics.collision(player, enemy3, 1, 'Y')) {
             return 0;
         }
-        enemy1.SetPos(vector2i(enemy1.GetPos().x, enemy1.GetPos().y + 1));
-        if (to_render.size() == 4 && enemy1.GetPos().y > 600) {
+        enemy1.setPos(vector2i(enemy1.getPos().x, enemy1.getPos().y + 1));
+        if (to_render.size() == 3 && enemy1.getPos().y > 600) {
             if (seed > 500) {
-                enemy2.SetPos(vector2i(680, 350));
+                enemy2.setPos(vector2i(680, 350));
                 to_render.push_back(&enemy2);
                 en2 = true;
             } else {
-                enemy3.SetPos(vector2i(970, 350));
+                enemy3.setPos(vector2i(970, 350));
                 to_render.push_back(&enemy3);
                 en3 = true;
             }
         }
-        if (enemy2.GetPos().y - 350 > 200 && en2 && !en3) {
-            enemy3.SetPos(vector2i(970, 350));
+        if (enemy2.getPos().y - 350 > 200 && en2 && !en3) {
+            enemy3.setPos(vector2i(970, 350));
             to_render.push_back(&enemy3);
             en3 = true;
         }
-        if (enemy3.GetPos().y - 350 > 200 && en3 && !en2) {
-            enemy2.SetPos(vector2i(680, 350));
+        if (enemy3.getPos().y - 350 > 200 && en3 && !en2) {
+            enemy2.setPos(vector2i(680, 350));
             to_render.push_back(&enemy2);
             en2 = true;
         }
         if (en2) {
-            if (enemy2.GetPos().y % 3 == 0)
-                enemy2.SetPos(vector2i(enemy2.GetPos().x - 1, enemy2.GetPos().y + 1));
-            else enemy2.SetPos(vector2i(enemy2.GetPos().x, enemy2.GetPos().y + 1));
+            if (enemy2.getPos().y % 3 == 0)
+                enemy2.setPos(vector2i(enemy2.getPos().x - 1, enemy2.getPos().y + 1));
+            else enemy2.setPos(vector2i(enemy2.getPos().x, enemy2.getPos().y + 1));
         }
         if (en3) {
-            if (enemy3.GetPos().y % 3 == 0)
-                enemy3.SetPos(vector2i(enemy3.GetPos().x + 1, enemy3.GetPos().y + 1));
-            else enemy3.SetPos(vector2i(enemy3.GetPos().x, enemy3.GetPos().y + 1));
+            if (enemy3.getPos().y % 3 == 0)
+                enemy3.setPos(vector2i(enemy3.getPos().x + 1, enemy3.getPos().y + 1));
+            else enemy3.setPos(vector2i(enemy3.getPos().x, enemy3.getPos().y + 1));
         }
 
-        if (enemy1.GetPos().y > rigidBody.GetHitboxMax().y + 60) {
-            enemy1.SetPos(vector2i(enemy1.GetPos().x, 350));
+        if (enemy1.getPos().y > player.getHitboxMax().y + 60) {
+            enemy1.setPos(vector2i(enemy1.getPos().x, 350));
             ++SCORE;
-            ScoreDisplay.EditText(("SCORE:" + std::to_string(SCORE)).c_str());
+            ScoreDisplay.editText(("SCORE:" + std::to_string(SCORE)).c_str());
         }
 
-        if (enemy2.GetPos().y > rigidBody.GetHitboxMax().y + 60) {
-            enemy2.SetPos(vector2i(700, 350));
+        if (enemy2.getPos().y > player.getHitboxMax().y + 60) {
+            enemy2.setPos(vector2i(700, 350));
             ++SCORE;
-            ScoreDisplay.EditText(("SCORE:" + std::to_string(SCORE)).c_str());
+            ScoreDisplay.editText(("SCORE:" + std::to_string(SCORE)).c_str());
         }
-        if (enemy3.GetPos().y > rigidBody.GetHitboxMax().y + 60) {
-            enemy3.SetPos(vector2i(900, 350));
+        if (enemy3.getPos().y > player.getHitboxMax().y + 60) {
+            enemy3.setPos(vector2i(900, 350));
             ++SCORE;
-            ScoreDisplay.EditText(("SCORE:" + std::to_string(SCORE)).c_str());
+            ScoreDisplay.editText(("SCORE:" + std::to_string(SCORE)).c_str());
         }
         if (is_stop) {
-            physics.SetVelocity(vector2i(0, 0));
+            physics.setVelocity(vector2i(0, 0));
         } else {
             if (keys[SDL_SCANCODE_D]) {
-                physics.SetVelocity(vector2i(3, 0));
-                physics.MoveRight(rigidBody, objects);
+                physics.setVelocity(vector2i(3, 0));
+                physics.moveRight(player, objects);
             }
             if (keys[SDL_SCANCODE_A]) {
-                physics.SetVelocity(vector2i(3, 0));
-                physics.MoveLeft(rigidBody, objects);
+                physics.setVelocity(vector2i(3, 0));
+                physics.moveLeft(player, objects);
             }
         }
 
         engine.clear_renderer();
-        engine.draw_2d_object(background2, 1.0);
-        engine.draw_objects(to_render);
-        engine.render_text(ScoreDisplay, vector2i(0, 0));
+        engine.draw(background2, 1.0);
+        engine.draw(to_render);
+        engine.draw(player, 1.0);
+        engine.draw(ScoreDisplay, vector2i(0, 0));
         engine.render_frame();
         while (menu) {
             engine.clear_renderer();
-            engine.draw_2d_object(background2, 1.0);
-            engine.draw_widget(resume_btn);
-            engine.draw_widget(quit_btn);
+            engine.draw(background2, 1.0);
+            engine.draw(resume_btn);
+            engine.draw(quit_btn);
             engine.render_frame();
             while (SDL_PollEvent(&e)) {
                 if (e.type == SDL_MOUSEBUTTONDOWN) {
                     vector2i pos;
                     SDL_GetMouseState(&pos.x, &pos.y);
-                    if (start_btn.OnClick(pos)) {
+                    if (start_btn.onClick(pos)) {
                         menu = false;
                     }
-                    if (quit_btn.OnClick(pos)) {
+                    if (quit_btn.onClick(pos)) {
                         menu = false;
                         quit = true;
                     }
@@ -194,6 +191,6 @@ int main(int argc, char **argv) {
             }
         }
     }
-    soundtrack.MusicStop();
+    soundtrack.musicStop();
     return 0;
 }

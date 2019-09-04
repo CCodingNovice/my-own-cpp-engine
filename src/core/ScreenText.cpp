@@ -18,15 +18,15 @@ Text::Text(const char *name_of_font, int s, SDL_Color c, const char *text) {
 
 Text::~Text() = default;
 
-SDL_Surface *Text::GetSurface() {
+SDL_Surface *Text::getSurface() {
     return surface;
 }
 
-SDL_Texture *Text::GetTexture(SDL_Renderer *ren) {
+SDL_Texture *Text::getTexture(SDL_Renderer *ren) {
     return SDL_CreateTextureFromSurface(ren, surface);
 }
 
-void Text::EditText(const char *text) {
+void Text::editText(const char *text) {
     SDL_FreeSurface(surface);
     FONT = TTF_OpenFont(name.c_str(), size);
     surface = TTF_RenderText_Solid(FONT, text, color);

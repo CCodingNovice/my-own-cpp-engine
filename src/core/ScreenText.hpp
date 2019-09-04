@@ -8,16 +8,11 @@
 class Text {
 public:
     Text();
-
     Text(const char *, int s, SDL_Color c, const char *);
-
     ~Text();
-
-    SDL_Surface *GetSurface();
-
-    SDL_Texture *GetTexture(SDL_Renderer *ren);
-
-    void EditText(const char *text);
+    SDL_Surface *getSurface();
+    SDL_Texture *getTexture(SDL_Renderer *ren);
+    void editText(const char *text);
 
 private:
     std::string name;

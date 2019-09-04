@@ -11,7 +11,7 @@ Music::~Music() {
     Mix_FreeMusic(music);
 }
 
-void Music::MusicPlay() {
+void Music::musicPlay() {
     if (Mix_PausedMusic()) {
         Mix_ResumeMusic();
     } else {
@@ -19,11 +19,11 @@ void Music::MusicPlay() {
     }
 }
 
-void Music::MusicPause() {
+void Music::musicPause() {
     Mix_PauseMusic();
 }
 
-void Music::MusicStop() {
+void Music::musicStop() {
     Mix_HaltMusic();
 }
 

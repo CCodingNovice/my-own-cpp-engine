@@ -1,18 +1,18 @@
 #include "ScreenMenu.hpp"
 
-my_engine::vector2i ScreenWidget::GetPos() {
+my_engine::vector2i ScreenWidget::getPos() {
     return position;
 }
 
-my_engine::vector2i ScreenWidget::GetSize() {
+my_engine::vector2i ScreenWidget::getSize() {
     return size;
 }
 
-void ScreenWidget::SetPos(my_engine::vector2i pos) {
+void ScreenWidget::setPos(my_engine::vector2i pos) {
     position = pos;
 }
 
-void ScreenWidget::SetSize(my_engine::vector2i s) {
+void ScreenWidget::setSize(my_engine::vector2i s) {
     size = s;
 }
 
@@ -54,19 +54,19 @@ ScreenWidget::ScreenWidget(my_engine::vector2i pos,
     widget_background.h = size.y;
 }
 
-SDL_Rect ScreenWidget::GetRect() {
+SDL_Rect ScreenWidget::getRect() {
     return widget_background;
 }
 
-SDL_Color ScreenWidget::GetPrimaryColor() {
+SDL_Color ScreenWidget::getPrimaryColor() {
     return primary_color;
 }
 
-SDL_Color ScreenWidget::GetSecondaryColor() {
+SDL_Color ScreenWidget::getSecondaryColor() {
     return secondary_color;
 }
 
-const char *ScreenWidget::GetText() {
+const char *ScreenWidget::getText() {
     return text.c_str();
 }
 
@@ -78,35 +78,35 @@ Button::Button(const char *w_text, SDL_Color pr_color, SDL_Color sec_color) : Sc
 Button::Button(my_engine::vector2i pos, my_engine::vector2i s, const char *w_text, SDL_Color pr_color,
                SDL_Color sec_color) : ScreenWidget(pos, s, w_text, pr_color, sec_color) {}
 
-my_engine::vector2i Button::GetPos() {
-    return ScreenWidget::GetPos();
+my_engine::vector2i Button::getPos() {
+    return ScreenWidget::getPos();
 }
 
-my_engine::vector2i Button::GetSize() {
-    return ScreenWidget::GetSize();
+my_engine::vector2i Button::getSize() {
+    return ScreenWidget::getSize();
 }
 
-void Button::SetPos(my_engine::vector2i pos) {
-    ScreenWidget::SetPos(pos);
+void Button::setPos(my_engine::vector2i pos) {
+    ScreenWidget::setPos(pos);
 }
 
-void Button::SetSize(my_engine::vector2i s) {
-    ScreenWidget::SetSize(s);
+void Button::setSize(my_engine::vector2i s) {
+    ScreenWidget::setSize(s);
 }
 
-SDL_Rect Button::GetRect() {
-    return ScreenWidget::GetRect();
+SDL_Rect Button::getRect() {
+    return ScreenWidget::getRect();
 }
 
-SDL_Color Button::GetPrimaryColor() {
-    return ScreenWidget::GetPrimaryColor();
+SDL_Color Button::getPrimaryColor() {
+    return ScreenWidget::getPrimaryColor();
 }
 
-SDL_Color Button::GetSecondaryColor() {
-    return ScreenWidget::GetSecondaryColor();
+SDL_Color Button::getSecondaryColor() {
+    return ScreenWidget::getSecondaryColor();
 }
 
-bool Button::OnClick(my_engine::vector2i mouse_pos) {
+bool Button::onClick(my_engine::vector2i mouse_pos) {
     return mouse_pos.x > position.x && mouse_pos.x < position.x + size.x
            && mouse_pos.y > position.y && mouse_pos.y < position.y + size.y;
 }

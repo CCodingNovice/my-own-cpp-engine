@@ -9,24 +9,15 @@ namespace my_engine {
     class Physics {
     public:
         explicit Physics(vector2i vel);
-
-        bool Collision(RigidBody rb1, RigidBody rb2, int sign, char c);
-
-        void MoveRight(RigidBody &rigidBody, std::vector<RigidBody> objects);
-
-        void MoveLeft(RigidBody &rigidBody, std::vector<RigidBody> objects);
-
-        void MoveUp(RigidBody &rigidBody, std::vector<RigidBody> objects);
-
-        void MoveDown(RigidBody &rigidBody, std::vector<RigidBody> objects);
-
-        void SetVelocity(vector2i vel);
-
-        bool OnGround(RigidBody rigidBody, std::vector<RigidBody> objects);
-
-        int Get_x_velocity();
-
-        int Get_y_velocity();
+        bool collision(Player rb1, RigidBody rb2, int sign, char c);
+        void moveRight(Player &rigidBody, std::vector<RigidBody> objects);
+        void moveLeft(Player &rigidBody, std::vector<RigidBody> objects);
+        void moveUp(Player &rigidBody, std::vector<RigidBody> objects);
+        void moveDown(Player &rigidBody, std::vector<RigidBody> objects);
+        void setVelocity(vector2i vel);
+        bool onGround(Player rigidBody, std::vector<RigidBody> objects);
+        int get_x_velocity();
+        int get_y_velocity();
 
     private:
         vector2i velocity;

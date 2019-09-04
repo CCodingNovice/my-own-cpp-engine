@@ -12,11 +12,11 @@ public:
 
     ~Music();
 
-    void MusicPlay();
+    void musicPlay();
 
-    void MusicPause();
+    void musicPause();
 
-    void MusicStop();
+    void musicStop();
 
 private:
     Mix_Music *music;

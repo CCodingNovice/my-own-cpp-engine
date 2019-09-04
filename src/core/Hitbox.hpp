@@ -5,11 +5,11 @@
 
 class Hitbox {
 public:
-    virtual my_engine::vector2i GetHitboxMin();
+    virtual my_engine::vector2i getHitboxMin();
 
-    virtual my_engine::vector2i GetHitboxMax();
+    virtual my_engine::vector2i getHitboxMax();
 
-    virtual void SetHitboxPos(my_engine::vector2i deltaL);
+    virtual void setHitboxPos(my_engine::vector2i deltaL);
 
 protected:
     my_engine::vector2i min, max;

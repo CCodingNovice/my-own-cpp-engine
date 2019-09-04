@@ -1,17 +1,17 @@
 
 #include "Hitbox.hpp"
 
-my_engine::vector2i Hitbox::GetHitboxMin() {
+my_engine::vector2i Hitbox::getHitboxMin() {
     return min;
 }
 
-my_engine::vector2i Hitbox::GetHitboxMax() {
+my_engine::vector2i Hitbox::getHitboxMax() {
     return max;
 }
 
-void Hitbox::SetHitboxPos(my_engine::vector2i l) {
-    min.x = Hitbox::GetHitboxMin().x + l.x;
-    min.y = Hitbox::GetHitboxMin().y + l.y;
-    max.x = Hitbox::GetHitboxMax().x + l.x;
-    max.y = Hitbox::GetHitboxMax().y + l.y;
+void Hitbox::setHitboxPos(my_engine::vector2i offset) {
+    min.x = Hitbox::getHitboxMin().x + offset.x;
+    min.y = Hitbox::getHitboxMin().y + offset.y;
+    max.x = Hitbox::getHitboxMax().x + offset.x;
+    max.y = Hitbox::getHitboxMax().y + offset.y;
 }

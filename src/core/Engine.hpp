@@ -4,6 +4,7 @@
 #include <SDL.h>
 #include "Object_2d.hpp"
 #include "RigidBody.hpp"
+#include "Player.hpp"
 #include <string>
 #include <vector>
 #include "ScreenText.hpp"
@@ -21,15 +22,14 @@ namespace my_engine{
         void set_window_options(int x_pos, int y_pos, int width, int height, const char title[100], Uint32 flags);
         void set_renderer_options(Uint32 flags);
         void clear_renderer();
-        void draw_2d_object(Object_2d object2d, float scale);
-        void draw_2d_object(RigidBody rb, float scale);
-        void draw_objects(std::vector<RigidBody *> &objects);
+        void draw(Object_2d object2d, float scale);
+        void draw(RigidBody rb, float scale);
+        void draw(std::vector<RigidBody *> &objects);
         void render_frame();
-        void render_text(Text text, vector2i pos);
-
-        void draw_widget(ScreenWidget widget);
-
-        void draw_widget(Button button);
+        void draw(Text text, vector2i pos);
+        void draw(ScreenWidget widget);
+        void draw(Button button);
+        void draw(Player player, float scale);
 
     private:
         SDL_Renderer *renderer;

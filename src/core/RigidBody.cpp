@@ -1,65 +1,52 @@
 #include <cstring>
 #include "RigidBody.hpp"
 
-RigidBody::RigidBody() {
-    mass = 1;
-    use_gravity = false;
-    is_movable = false;
+RigidBody::RigidBody() : Object_2d::Object_2d() {
+    this->movable = true;
 }
 
-RigidBody::RigidBody(float m, bool gravity, bool movable) {
-    mass = m;
-    use_gravity = gravity;
-    is_movable = movable;
+RigidBody::RigidBody(bool isMovable) : Object_2d::Object_2d() {
+    this->movable = isMovable;
 }
 
 RigidBody &RigidBody::operator=(Object_2d &object2d) {
-    pos = object2d.GetPos();
-    size = object2d.GetSize();
-    strcpy(tex_path, object2d.GetPath());
+    pos = object2d.getPos();
+    size = object2d.getSize();
+    strcpy(tex_path, object2d.getPath());
     return *this;
 }
 
-char *RigidBody::GetPath() {
-    return Object_2d::GetPath();
+char *RigidBody::getPath() {
+    return Object_2d::getPath();
 }
 
-bool RigidBody::Is_movable() {
-    return is_movable;
+bool RigidBody::is_movable() {
+    return movable;
 }
 
-float RigidBody::GetMass() {
-    return mass;
+vector2i RigidBody::getPos() {
+    return Hitbox::getHitboxMin();
 }
 
-bool RigidBody::UsingGravity() {
-    return use_gravity;
-}
-
-vector2i RigidBody::GetPos() {
-    return Hitbox::GetHitboxMin();
-}
-
-
-vector2ui RigidBody::GetSize() {
+vector2ui RigidBody::getSize() {
     return size;
 }
 
-void RigidBody::SetPos(vector2i pos) {
+void RigidBody::setPos(vector2i pos) {
     vector2i temp;
-    temp = Hitbox::GetHitboxMin();
+    temp = Hitbox::getHitboxMin();
     temp.x = pos.x - temp.x;
     temp.y = pos.y - temp.y;
-    Hitbox::SetHitboxPos(temp);
-    Object_2d::SetPos(temp);
+    Hitbox::setHitboxPos(temp);
+    Object_2d::setPos(temp);
 }
 
-vector2i RigidBody::GetHitboxMax() {
-    return Hitbox::GetHitboxMax();
+vector2i RigidBody::getHitboxMax() {
+    return Hitbox::getHitboxMax();
 }
 
-vector2i RigidBody::GetHitboxMin() {
-    return Hitbox::GetHitboxMin();
+vector2i RigidBody::getHitboxMin() {
+    return Hitbox::getHitboxMin();
 }
 
 RigidBody::RigidBody(vector2i HitboxMin, vector2i HitboxMax) {
@@ -67,13 +54,19 @@ RigidBody::RigidBody(vector2i HitboxMin, vector2i HitboxMax) {
     max = HitboxMax;
 }
 
-vector2i RigidBody::GetTexturePos() {
+vector2i RigidBody::getTexturePos() {
     return pos;
 }
 
-SDL_Texture *RigidBody::GetTexture() {
-    return Object_2d::GetTexture();
+SDL_Texture *RigidBody::getTexture() {
+    return Object_2d::getTexture();
 }
 
+RigidBody::RigidBody(int x, int y, unsigned int width, unsigned int height, const char *texturePath) : Object_2d(x, y,
+                                                                                                                 width,
+                                                                                                                 height,
+                                                                                                                 texturePath){
+    this->movable = true;
+}
 
 RigidBody::~RigidBody() = default;
