@@ -55,15 +55,14 @@ int main(int argc, char **argv) {
 
     engine.init();
     engine.set_window_options(SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 0, 0, "Example game",
-                              SDL_WINDOW_FULLSCREEN | SDL_WINDOW_SHOWN);
-    engine.set_renderer_options(SDL_RENDERER_ACCELERATED);
+                              SDL_WINDOW_FULLSCREEN | SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+    engine.set_renderer_options(SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
     Music soundtrack = Music("../src/assets/Music/Lost_Control.mp3");
     soundtrack.musicPlay();
 
     SDL_Event e;
     bool is_stop;
-    bool esc_stop;
     bool quit = false;
 
     while (menu) {
@@ -102,20 +101,20 @@ int main(int argc, char **argv) {
             physics.collision(player, enemy3, 1, 'Y')) {
             return 0;
         }
-        enemy1.setPos(vector2i(enemy1.getPos().x, enemy1.getPos().y + 1));
+        enemy1.setPos(vector2i(enemy1.getPos().x, enemy1.getPos().y + 3));
         if (to_render.size() == 3 && enemy1.getPos().y > 600) {
             if (seed > 500) {
                 enemy2.setPos(vector2i(680, 350));
                 to_render.push_back(&enemy2);
                 en2 = true;
             } else {
-                enemy3.setPos(vector2i(970, 350));
+                enemy3.setPos(vector2i(990, 350));
                 to_render.push_back(&enemy3);
                 en3 = true;
             }
         }
         if (enemy2.getPos().y - 350 > 200 && en2 && !en3) {
-            enemy3.setPos(vector2i(970, 350));
+            enemy3.setPos(vector2i(990, 350));
             to_render.push_back(&enemy3);
             en3 = true;
         }
@@ -125,14 +124,14 @@ int main(int argc, char **argv) {
             en2 = true;
         }
         if (en2) {
-            if (enemy2.getPos().y % 3 == 0)
-                enemy2.setPos(vector2i(enemy2.getPos().x - 1, enemy2.getPos().y + 1));
-            else enemy2.setPos(vector2i(enemy2.getPos().x, enemy2.getPos().y + 1));
+            if (enemy2.getPos().y % 2 == 0)
+                enemy2.setPos(vector2i(enemy2.getPos().x - 2, enemy2.getPos().y + 3));
+            else enemy2.setPos(vector2i(enemy2.getPos().x, enemy2.getPos().y + 3));
         }
         if (en3) {
-            if (enemy3.getPos().y % 3 == 0)
-                enemy3.setPos(vector2i(enemy3.getPos().x + 1, enemy3.getPos().y + 1));
-            else enemy3.setPos(vector2i(enemy3.getPos().x, enemy3.getPos().y + 1));
+            if (enemy3.getPos().y % 2 == 0)
+                enemy3.setPos(vector2i(enemy3.getPos().x + 2, enemy3.getPos().y + 3));
+            else enemy3.setPos(vector2i(enemy3.getPos().x, enemy3.getPos().y + 3));
         }
 
         if (enemy1.getPos().y > player.getHitboxMax().y + 60) {
@@ -147,7 +146,7 @@ int main(int argc, char **argv) {
             ScoreDisplay.editText(("SCORE:" + std::to_string(SCORE)).c_str());
         }
         if (enemy3.getPos().y > player.getHitboxMax().y + 60) {
-            enemy3.setPos(vector2i(900, 350));
+            enemy3.setPos(vector2i(990, 350));
             ++SCORE;
             ScoreDisplay.editText(("SCORE:" + std::to_string(SCORE)).c_str());
         }
@@ -155,11 +154,11 @@ int main(int argc, char **argv) {
             physics.setVelocity(vector2i(0, 0));
         } else {
             if (keys[SDL_SCANCODE_D]) {
-                physics.setVelocity(vector2i(3, 0));
+                physics.setVelocity(vector2i(5, 0));
                 physics.moveRight(player, objects);
             }
             if (keys[SDL_SCANCODE_A]) {
-                physics.setVelocity(vector2i(3, 0));
+                physics.setVelocity(vector2i(5, 0));
                 physics.moveLeft(player, objects);
             }
         }
