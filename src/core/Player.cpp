@@ -46,3 +46,7 @@ vector2i Player::getHitboxMax() {
 SDL_Texture *Player::getTexture() {
     return RigidBody::getTexture();
 }
+
+void Player::addAnimation(std:: string name, Animation animation) {
+    animations.emplace(name, animation);
+}

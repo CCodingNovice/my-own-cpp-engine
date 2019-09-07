@@ -3,6 +3,9 @@
 
 #include "Hitbox.hpp"
 #include "RigidBody.hpp"
+#include "Animation.hpp"
+#include <map>
+#include <string>
 
 class Player : public virtual RigidBody {
 public:
@@ -17,8 +20,10 @@ public:
     vector2i getHitboxMin() override;
     vector2i getHitboxMax() override;
     SDL_Texture *getTexture() override;
+    void addAnimation(std::string name, Animation animation);
 private:
     int score;
+    std::map<std::string, Animation> animations;
 };
 
 #endif //ENGINE_PLAYER_HPP

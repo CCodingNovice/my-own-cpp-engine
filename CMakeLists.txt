@@ -14,7 +14,8 @@ set(ENGINE_SOURCES
         src/core/Player.cpp
         src/core/ScreenText.cpp
         src/core/ScreenMenu.cpp
-        src/core/Audio.cpp)
+        src/core/Audio.cpp
+        src/core/Animation.cpp)
 set(ENGINE_HEADERS
         src/core/vector.hpp
         src/core/Engine.hpp
@@ -26,7 +27,8 @@ set(ENGINE_HEADERS
         src/core/Player.hpp
         src/core/ScreenText.hpp
         src/core/ScreenMenu.hpp
-        src/core/Audio.hpp)
+        src/core/Audio.hpp
+        src/core/Animation.hpp)
 
 add_library(my_engine_library STATIC ${ENGINE_SOURCES} ${ENGINE_HEADERS})
 target_include_directories(my_engine_library PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/src)

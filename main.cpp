@@ -41,6 +41,9 @@ int main(int argc, char **argv) {
     to_render.push_back(&left_bound);
     to_render.push_back(&right_bound);
 
+    Animation toLeft = Animation(4, 1, {vector2i(50, 0)});
+    player.addAnimation("left", toLeft);
+
     bool en2 = false;
     bool en3 = false;
     vector2i a;
