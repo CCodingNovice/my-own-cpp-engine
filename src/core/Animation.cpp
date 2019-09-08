@@ -1,5 +1,6 @@
 #include "Animation.hpp"
 #include <SDL.h>
+#include <cmath>
 
 Animation::~Animation() {
     sheet_positions.clear();
@@ -31,16 +32,14 @@ Animation::Animation(my_engine::vector2i fs, unsigned int f, unsigned int d, std
     sheet_positions = positions;
 }
 
-SDL_Rect Animation::getCurrentRect(Uint32 deltaTicks) {
-    if(frames != 0) {
-        if (duration / frames < (size_t)deltaTicks) {
-            curentFrame++;
-        }
+SDL_Rect Animation::getCurrentRect(Uint32 ticks) {
+    if(ticks - startTicks <= duration) {
+        auto index = (int) round((float) (ticks - startTicks) / duration * 4);
+        if(index >= frames)
+            index--;
+        return (SDL_Rect) {sheet_positions[index].x, sheet_positions[index].y, frameSize.x, frameSize.y};
     }
-    if(curentFrame >= frames){
-        curentFrame = 0;
-    }
-    return (SDL_Rect){sheet_positions[curentFrame].x, sheet_positions[curentFrame].y, frameSize.x, frameSize.y};
+    return (SDL_Rect) {sheet_positions[frames - 1].x, sheet_positions[frames - 1].y, frameSize.x, frameSize.y};
 }
 
 void Animation::startAnimation(unsigned int ticks) {
@@ -49,4 +48,5 @@ void Animation::startAnimation(unsigned int ticks) {
 
 void Animation::setStartTick(unsigned int tick) {
     startTicks = tick;
+    curentFrame = 0;
 }

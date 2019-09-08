@@ -14,7 +14,6 @@ using namespace my_engine;
 int main(int argc, char **argv) {
     TTF_Init();
     Engine engine = Engine("DEBUG");
-    engine.setCurrTicks(SDL_GetTicks());
     SDL_Color color = {255, 255, 255};
     Text ScoreDisplay = Text("../src/assets/fonts/ARIAL.ttf", 104, color, ("SCORE:" + std::to_string(SCORE)).c_str());
 
@@ -41,14 +40,17 @@ int main(int argc, char **argv) {
     to_render.push_back(&left_bound);
     to_render.push_back(&right_bound);
 
-    Animation defaultCar = Animation(vector2i(50, 50), 1, 100, {vector2i(50, 0)});
-    Animation toLeft = Animation(vector2i(50, 50), 1, 100, {vector2i(0, 0)});
+    Animation defaultCar = Animation(vector2i(50, 50), 1, 10, {vector2i(0, 0)});
+    Animation toLeft = Animation(vector2i(50, 50), 4, 200, {vector2i(50, 0), vector2i(100, 0), vector2i(150, 0), vector2i(200, 0)});
+    Animation toRight = Animation(vector2i(50, 50), 4, 200, {vector2i(250, 0), vector2i(300, 0), vector2i(350, 0), vector2i(400, 0)});
 
     player.addAnimation("default", defaultCar);
     player.addAnimation("left", toLeft);
+    player.addAnimation("right", toRight);
 
     bool en2 = false;
     bool en3 = false;
+
     vector2i a;
     a.x = 4;
     a.y = 6;
@@ -70,6 +72,8 @@ int main(int argc, char **argv) {
     SDL_Event e;
     bool is_stop;
     bool quit = false;
+    bool carLeft = false;
+    bool carRight = false;
 
     while (menu) {
         engine.clear_renderer();
@@ -93,14 +97,16 @@ int main(int argc, char **argv) {
 
     srand(unsigned(std::time(nullptr)));
     int seed = std::rand() % 1000;
+    Uint32 prevTicks, currTicks = SDL_GetTicks();
 
     while (!quit) {
+       prevTicks = currTicks;
+       currTicks = SDL_GetTicks();
         while (SDL_PollEvent(&e)) {
             if (e.key.keysym.sym == SDLK_ESCAPE) {
                 menu = true;
             }
         }
-        player.startAnimation("default", SDL_GetTicks());
         is_stop = !(keys[SDL_SCANCODE_A] || keys[SDL_SCANCODE_D]);
         physics.setVelocity(vector2i(1, 0));
         if (physics.collision(player, enemy1, 1, 'Y') || physics.collision(player, enemy2, 1, 'Y') ||
@@ -157,15 +163,26 @@ int main(int argc, char **argv) {
             ScoreDisplay.editText(("SCORE:" + std::to_string(SCORE)).c_str());
         }
         if (is_stop) {
+            carLeft = carRight = false;
+            player.startAnimation("default", SDL_GetTicks());
             physics.setVelocity(vector2i(0, 0));
         } else {
             if (keys[SDL_SCANCODE_D]) {
                 physics.setVelocity(vector2i(5, 0));
+                if(!carRight || carLeft) {
+                    player.startAnimation("right", SDL_GetTicks());
+                    carRight = true;
+                    carLeft = false;
+                }
                 physics.moveRight(player, objects);
             }
             if (keys[SDL_SCANCODE_A]) {
                 physics.setVelocity(vector2i(5, 0));
-                player.startAnimation("left", SDL_GetTicks());
+                if(carRight || !carLeft) {
+                    player.startAnimation("left", SDL_GetTicks());
+                    carRight = false;
+                    carLeft = true;
+                }
                 physics.moveLeft(player, objects);
             }
         }
