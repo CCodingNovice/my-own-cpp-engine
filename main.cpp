@@ -14,7 +14,7 @@ using namespace my_engine;
 int main(int argc, char **argv) {
     TTF_Init();
     Engine engine = Engine("DEBUG");
-
+    engine.setCurrTicks(SDL_GetTicks());
     SDL_Color color = {255, 255, 255};
     Text ScoreDisplay = Text("../src/assets/fonts/ARIAL.ttf", 104, color, ("SCORE:" + std::to_string(SCORE)).c_str());
 
@@ -41,7 +41,10 @@ int main(int argc, char **argv) {
     to_render.push_back(&left_bound);
     to_render.push_back(&right_bound);
 
-    Animation toLeft = Animation(4, 1, {vector2i(50, 0)});
+    Animation defaultCar = Animation(vector2i(50, 50), 1, 100, {vector2i(50, 0)});
+    Animation toLeft = Animation(vector2i(50, 50), 1, 100, {vector2i(0, 0)});
+
+    player.addAnimation("default", defaultCar);
     player.addAnimation("left", toLeft);
 
     bool en2 = false;
@@ -97,7 +100,7 @@ int main(int argc, char **argv) {
                 menu = true;
             }
         }
-
+        player.startAnimation("default", SDL_GetTicks());
         is_stop = !(keys[SDL_SCANCODE_A] || keys[SDL_SCANCODE_D]);
         physics.setVelocity(vector2i(1, 0));
         if (physics.collision(player, enemy1, 1, 'Y') || physics.collision(player, enemy2, 1, 'Y') ||
@@ -162,11 +165,12 @@ int main(int argc, char **argv) {
             }
             if (keys[SDL_SCANCODE_A]) {
                 physics.setVelocity(vector2i(5, 0));
+                player.startAnimation("left", SDL_GetTicks());
                 physics.moveLeft(player, objects);
             }
         }
-
         engine.clear_renderer();
+        engine.setCurrTicks(SDL_GetTicks());
         engine.draw(background2, 1.0);
         engine.draw(to_render);
         engine.draw(player, 1.0);

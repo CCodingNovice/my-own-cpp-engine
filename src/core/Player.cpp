@@ -47,6 +47,18 @@ SDL_Texture *Player::getTexture() {
     return RigidBody::getTexture();
 }
 
-void Player::addAnimation(std:: string name, Animation animation) {
-    animations.emplace(name, animation);
+void Player::addAnimation(const char *name, Animation animation) {
+    RigidBody::addAnimation(name, animation);
+}
+
+int Player::getAnimationsSize() {
+    return RigidBody::getAnimationsSize();
+}
+
+void Player::startAnimation(const char *name, unsigned int tick) {
+    RigidBody::startAnimation(name, tick);
+}
+
+SDL_Rect Player::getSourceRect(unsigned int ticks) {
+    return RigidBody::getSourceRect(ticks);
 }

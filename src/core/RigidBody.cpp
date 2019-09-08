@@ -69,4 +69,20 @@ RigidBody::RigidBody(int x, int y, unsigned int width, unsigned int height, cons
     this->movable = true;
 }
 
+void RigidBody::addAnimation(const char *name, Animation animation) {
+    Object_2d::addAnimation(name, animation);
+}
+
+int RigidBody::getAnimationsSize() {
+    return Object_2d::getAnimationsSize();
+}
+
+void RigidBody::startAnimation(const char *name, unsigned int tick) {
+    Object_2d::startAnimation(name, tick);
+}
+
+SDL_Rect RigidBody::getSourceRect(unsigned int ticks) {
+    return Object_2d::getSourceRect(ticks);
+}
+
 RigidBody::~RigidBody() = default;

@@ -30,11 +30,13 @@ namespace my_engine{
         void draw(ScreenWidget widget);
         void draw(Button button);
         void draw(Player player, float scale);
+        void setCurrTicks(Uint32 t);
 
     private:
         SDL_Renderer *renderer;
         SDL_Window *window;
         bool MODE;
+        Uint32 currTicks;
     };
 }
 #endif //ENGINE_ENGINE_HPP

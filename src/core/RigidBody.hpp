@@ -7,7 +7,7 @@
 class RigidBody : public Object_2d, public Hitbox {
 public:
     RigidBody();
-    RigidBody(bool isMovable);
+    explicit RigidBody(bool isMovable);
     RigidBody(int x, int y, unsigned int width, unsigned int height, const char *texturePath);
     RigidBody(vector2i HitboxMin, vector2i HitboxMax);
     ~RigidBody();
@@ -21,6 +21,10 @@ public:
     vector2i getHitboxMin() override;
     vector2i getHitboxMax() override;
     SDL_Texture *getTexture() override;
+    void addAnimation(const char *name, Animation animation) override;
+    int getAnimationsSize() override;
+    void startAnimation(const char *name, unsigned int tick) override;
+    SDL_Rect getSourceRect(unsigned int ticks) override;
 
 protected:
     bool movable;

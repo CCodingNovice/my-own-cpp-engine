@@ -33,7 +33,13 @@ void Engine::draw(Object_2d object2d, float scale) {
     object_rect.w = int(object2d.getSize().x * scale);
     object_rect.h = int(object2d.getSize().y * scale);
     SDL_Texture *tex = IMG_LoadTexture(renderer, object2d.getPath());
-    SDL_RenderCopy(renderer, tex, nullptr, &object_rect);
+    if(!object2d.getAnimationsSize()) {
+        SDL_RenderCopy(renderer, tex, nullptr, &object_rect);
+    }
+    else{
+        SDL_Rect src = object2d.getSourceRect(currTicks);
+        SDL_RenderCopy(renderer, tex, &src, &object_rect);
+    }
     SDL_DestroyTexture(tex);
 }
 
@@ -52,7 +58,13 @@ void Engine::draw(RigidBody rb, float scale) {
     if (tex == nullptr) {
         tex = IMG_LoadTexture(renderer, rb.getPath());
     }
-    SDL_RenderCopy(renderer, tex, nullptr, &object_rect);
+    if(!rb.getAnimationsSize()) {
+        SDL_RenderCopy(renderer, tex, nullptr, &object_rect);
+    }
+    else{
+        SDL_Rect src = rb.getSourceRect(currTicks);
+        SDL_RenderCopy(renderer, tex, &src, &object_rect);
+    }
     SDL_DestroyTexture(tex);
 }
 
@@ -77,7 +89,13 @@ void Engine::draw(std::vector<RigidBody *> &objects) {
         object_rect.y = object->getTexturePos().y;
         object_rect.w = object->getSize().x;
         object_rect.h = object->getSize().y;
-        SDL_RenderCopy(renderer, tex, nullptr, &object_rect);
+        if(!object->getAnimationsSize()) {
+            SDL_RenderCopy(renderer, tex, nullptr, &object_rect);
+        }
+        else{
+            SDL_Rect src = object->getSourceRect(currTicks);
+            SDL_RenderCopy(renderer, tex, &src, &object_rect);
+        }
         SDL_DestroyTexture(tex);
     }
     if (!MODE) {
@@ -106,7 +124,7 @@ void Engine::draw(Text text, vector2i pos) {
 void Engine::draw(ScreenWidget widget) {
     SDL_Rect rect = widget.getRect();
     SDL_RenderFillRect(renderer, &rect);
-    auto FONT = TTF_OpenFont("../src/assets/fonts/ARIAL.ttf", 24);
+    auto FONT = TTF_OpenFont("../src/assets/fonts/ARIAL.ttf", 104);
     auto surface = TTF_RenderText_Solid(FONT, widget.getText(), widget.getSecondaryColor());
     TTF_CloseFont(FONT);
     auto tex = SDL_CreateTextureFromSurface(renderer, surface);
@@ -118,7 +136,7 @@ void Engine::draw(ScreenWidget widget) {
 void Engine::draw(Button button) {
     SDL_Rect rect = button.getRect();
     SDL_RenderFillRect(renderer, &rect);
-    auto FONT = TTF_OpenFont("../src/assets/fonts/ARIAL.ttf", 24);
+    auto FONT = TTF_OpenFont("../src/assets/fonts/ARIAL.ttf", 104);
     auto surface = TTF_RenderText_Solid(FONT, button.getText(), button.getSecondaryColor());
     TTF_CloseFont(FONT);
     auto tex = SDL_CreateTextureFromSurface(renderer, surface);
@@ -137,7 +155,13 @@ void Engine::draw(Player player, float scale) {
     if (tex == nullptr) {
         tex = IMG_LoadTexture(renderer, player.getPath());
     }
-    SDL_RenderCopy(renderer, tex, nullptr, &object_rect);
+    if(!player.getAnimationsSize()) {
+        SDL_RenderCopy(renderer, tex, nullptr, &object_rect);
+    }
+    else{
+        SDL_Rect src = player.getSourceRect(currTicks);
+        SDL_RenderCopy(renderer, tex, &src, &object_rect);
+    }
     SDL_DestroyTexture(tex);
     if(!MODE){
         object_rect.x = player.getHitboxMin().x;
@@ -147,4 +171,8 @@ void Engine::draw(Player player, float scale) {
         SDL_SetRenderDrawColor(renderer, 255, 255, 0, 255);
         SDL_RenderDrawRect(renderer, &object_rect);
     }
+}
+
+void Engine::setCurrTicks(Uint32 t) {
+    currTicks = t;
 }

@@ -20,10 +20,13 @@ public:
     vector2i getHitboxMin() override;
     vector2i getHitboxMax() override;
     SDL_Texture *getTexture() override;
-    void addAnimation(std::string name, Animation animation);
+    void addAnimation(const char *name, Animation animation) override;
+    int getAnimationsSize() override;
+    void startAnimation(const char *name, unsigned int tick) override;
+    SDL_Rect getSourceRect(unsigned int ticks) override;
+
 private:
     int score;
-    std::map<std::string, Animation> animations;
 };
 
 #endif //ENGINE_PLAYER_HPP
