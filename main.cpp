@@ -13,7 +13,7 @@ using namespace my_engine;
 
 int main(int argc, char **argv) {
     TTF_Init();
-    Engine engine = Engine("DEBUG");
+    Engine engine = Engine();
     SDL_Color color = {255, 255, 255};
     Text ScoreDisplay = Text("../src/assets/fonts/ARIAL.ttf", 104, color, ("SCORE:" + std::to_string(SCORE)).c_str());
 

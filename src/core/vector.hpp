@@ -14,8 +14,18 @@ namespace my_engine {
         T x, y;
 
         vector();
-
         vector(T x, T y);
+        // template class functions
+        vector<2, T> absolute(); // only for signed types
+        double lenght(vector &v);
+        vector<2, T>& operator= (vector<2, float> &v);
+        vector<2, T>& operator- (vector<2, T> &v);
+        vector<2, T>& operator+ (vector<2, T> &v);
+        vector<2, T>& operator* (vector<2, T> &v);
+        vector<2, T>& operator/ (vector<2, T> &v);
+        bool operator==(vector<2, T> &v1) const;
+
+
     };
 
 }
